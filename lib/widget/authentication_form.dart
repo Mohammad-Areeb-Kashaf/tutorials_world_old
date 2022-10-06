@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/widget/my_text_field.dart';
 import 'package:tutorials_wallah/Utilities/auth_errors.dart';
 
@@ -28,72 +29,143 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        MyTextField(
-          labelText: 'Email',
-          hintText: 'Enter Your Email',
-          obscureText: false,
-          errorText: emailErrorText,
-          isEmail: true,
-          controller: widget.emailController,
-          isEnabled: true,
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        MyTextField(
-          labelText: 'Password',
-          hintText: 'Enter Your Password',
-          obscureText: true,
-          errorText: passwordErrorText,
-          isEmail: true,
-          controller: widget.passwordController,
-          isEnabled: true,
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-        ElevatedButton(
-          onPressed: () async {
-            if (widget.isLogin) {
-              authenticateLogin();
-            } else {
-              authenticateRegister();
-            }
-          },
-          child: Text(
-            widget.isLogin ? 'Sign In' : 'Register',
-            style: const TextStyle(
-              fontSize: 28,
-            ),
-          ),
-          style: ElevatedButton.styleFrom(minimumSize: const Size(1400, 50)),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: TextButton(
-            style: ButtonStyle(
-                minimumSize: MaterialStateProperty.all(Size(106.0, 50.0))),
-            onPressed: () {
-              if (widget.isLogin) {
-                // Navigator.pushReplacement(context,
-                //     CupertinoPageRoute(builder: (context) => Register()));
-              } else {
-                // Navigator.pushReplacement(
-                //     context, CupertinoPageRoute(builder: (context) => Login()));
-              }
-            },
-            child: Text(
-              widget.isLogin ? 'Register' : 'Sign In',
-              style: TextStyle(
-                fontSize: 26,
-                color: Colors.deepPurpleAccent.shade700,
+        kBackground,
+        Positioned.fill(
+          child: Container(
+            margin: EdgeInsets.only(top: 200),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                widget.isLogin ? "Sign In" : "Sign Up",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
               ),
             ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 300),
+          child: Column(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color.fromRGBO(143, 148, 251, .2),
+                          blurRadius: 20.0,
+                          offset: Offset(0, 10))
+                    ]),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                          border: Border(
+                              bottom: BorderSide(color: Colors.grey.shade100))),
+                      child: TextField(
+                        controller: widget.emailController,
+                        decoration: InputDecoration(
+                          errorText: emailErrorText,
+                          border: InputBorder.none,
+                          hintText: "Email",
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      child: TextField(
+                        controller: widget.passwordController,
+                        decoration: InputDecoration(
+                          errorText: passwordErrorText,
+                          border: InputBorder.none,
+                          hintText: "Password",
+                          hintStyle: TextStyle(
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Container(
+                height: 50,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    gradient: LinearGradient(colors: [
+                      Colors.deepPurple.shade500,
+                      Colors.deepPurple.shade600,
+                    ])),
+                child: Center(
+                  child: Text(
+                    widget.isLogin ? "Sign In" : "Sign Up",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+              ),
+              widget.isLogin ??
+                  SizedBox(
+                    height: 70,
+                  ),
+              widget.isLogin ??
+                  Text(
+                    "Forgot Password?",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+              Padding(
+                padding: const EdgeInsets.only(top: 180),
+                child: GestureDetector(
+                  onTap: () {
+                    if (widget.isLogin) {
+                      // Go to Sign Up Page
+                    } else {
+                      // Go to Sign In Page
+                    }
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: widget.isLogin
+                              ? 'Don\'t have an Account? '
+                              : 'Already have an Account? ',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        TextSpan(
+                          text: widget.isLogin ? 'Sign Up' : 'Sign In',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ],
