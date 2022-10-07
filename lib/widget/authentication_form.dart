@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorials_wallah/constants.dart';
-import 'package:tutorials_wallah/widget/my_text_field.dart';
+import 'package:tutorials_wallah/widget/decorated_button.dart';
 import 'package:tutorials_wallah/Utilities/auth_errors.dart';
 
 class AuthForm extends StatefulWidget {
@@ -31,7 +31,9 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        kBackground,
+        Container(
+          decoration: kBackgroundDecoration,
+        ),
         Positioned.fill(
           child: Container(
             margin: EdgeInsets.only(top: 200),
@@ -75,9 +77,7 @@ class _AuthFormState extends State<AuthForm> {
                           errorText: emailErrorText,
                           border: InputBorder.none,
                           hintText: "Email",
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          hintStyle: kTextFieldHintStyle,
                         ),
                       ),
                     ),
@@ -89,9 +89,7 @@ class _AuthFormState extends State<AuthForm> {
                           errorText: passwordErrorText,
                           border: InputBorder.none,
                           hintText: "Password",
-                          hintStyle: TextStyle(
-                            color: Colors.grey[400],
-                          ),
+                          hintStyle: kTextFieldHintStyle,
                         ),
                       ),
                     )
@@ -101,14 +99,7 @@ class _AuthFormState extends State<AuthForm> {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: LinearGradient(colors: [
-                      Colors.deepPurple.shade500,
-                      Colors.deepPurple.shade600,
-                    ])),
+              DecoratedButton(
                 child: Center(
                   child: Text(
                     widget.isLogin ? "Sign In" : "Sign Up",
@@ -119,18 +110,27 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                 ),
+                onTap: () {
+                  if (widget.isLogin) {
+                    authenticateLogin();
+                  } else {
+                    authenticateRegister();
+                  }
+                },
               ),
-              widget.isLogin ??
-                  SizedBox(
-                    height: 70,
-                  ),
-              widget.isLogin ??
-                  Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
+              widget.isLogin
+                  ? SizedBox(
+                      height: 70,
+                    )
+                  : SizedBox.shrink(),
+              widget.isLogin
+                  ? Text(
+                      "Forgot Password?",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    )
+                  : SizedBox.shrink(),
               Padding(
-                padding: const EdgeInsets.only(top: 180),
+                padding: EdgeInsets.only(top: 180),
                 child: GestureDetector(
                   onTap: () {
                     if (widget.isLogin) {
