@@ -23,9 +23,9 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   final _auth = FirebaseAuth.instance;
 
-  var emailErrorText = null;
+  var emailErrorText;
 
-  var passwordErrorText = null;
+  var passwordErrorText;
 
   @override
   Widget build(BuildContext context) {

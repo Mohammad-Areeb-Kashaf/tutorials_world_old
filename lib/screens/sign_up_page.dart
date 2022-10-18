@@ -18,7 +18,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: AuthForm(
         emailController: emailController,
         passwordController: passwordController,
-        isLogin: true,
+        isLogin: false,
       ),
     );
   }

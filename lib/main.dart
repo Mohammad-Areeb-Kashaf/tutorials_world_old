@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:tutorials_wallah/screens/no_internet_page.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
-import 'firebase_options.dart';
+import './firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
@@ -20,28 +20,29 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var isDeviceConnected = false;
-  var subscription;
-  var connection = false;
+  late var isDeviceConnected = true;
+  late var subscription;
+  late var connection;
 
   @override
   void initState() {
     super.initState();
-    subscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) async {
-      if (result != ConnectivityResult.none) {
-        connection = await InternetConnectionChecker().hasConnection;
-        setState(() {
-          isDeviceConnected = connection;
-        });
-      } else {
-        setState(() {
-          connection = false;
-          isDeviceConnected = false;
-        });
-      }
-    });
+    isDeviceConnected = true;
+    // subscription = Connectivity()
+    //     .onConnectivityChanged
+    //     .listen((ConnectivityResult result) async {
+    //   if (result != ConnectivityResult.none) {
+    //     connection = await InternetConnectionChecker().hasConnection;
+    //     setState(() {
+    //       isDeviceConnected = connection;
+    //     });
+    //   } else {
+    //     setState(() {
+    //       connection = false;
+    //       isDeviceConnected = false;
+    //     });
+    //   }
+    // });
   }
 
   @override
@@ -52,11 +53,11 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    subscription.cancel();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   subscription.cancel();
+  // }
 
   checkInternet() async {
     connection = await InternetConnectionChecker().hasConnection;
@@ -66,10 +67,11 @@ class _MyAppState extends State<MyApp> {
   }
 
   displayScreen() {
-    if (isDeviceConnected) {
-      return SignInPage();
-    } else {
-      return NoInternetPage(onTap: checkInternet());
-    }
+    // if (isDeviceConnected) {
+    //   return SignInPage();
+    // } else {
+    //   return NoInternetPage(onTap: checkInternet());
+    // }
+    return SignInPage();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DecoratedButton extends StatelessWidget {
-  DecoratedButton(
+  const DecoratedButton(
       {super.key, required Widget this.child, required Function this.onTap});
 
   final child;

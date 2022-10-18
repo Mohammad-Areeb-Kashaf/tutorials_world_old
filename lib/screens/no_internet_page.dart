@@ -4,7 +4,7 @@ import 'package:tutorials_wallah/constants.dart';
 import '../widget/decorated_button.dart';
 
 class NoInternetPage extends StatelessWidget {
-  NoInternetPage({super.key, required this.onTap});
+  const NoInternetPage({super.key, required this.onTap});
 
   final onTap;
 
