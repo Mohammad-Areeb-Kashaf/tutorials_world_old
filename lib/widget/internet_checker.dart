@@ -37,7 +37,7 @@ class _InternetCheckerState extends State<InternetChecker> {
         });
       }
     });
-    timer = Timer.periodic(Duration(seconds: 8), (Timer t) async {
+    timer = Timer.periodic(Duration(seconds: 15), (Timer t) async {
       connection = await InternetConnectionChecker().hasConnection;
       setState(() {
         isDeviceConnected = connection;

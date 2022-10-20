@@ -8,24 +8,24 @@ class NoInternetPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: kBackground,
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Internet Not Available, Please Check Your Internet Connection and Try Again',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ],
+    return Container(
+      decoration: Constants.kBackground,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Internet Not Available, Please Check Your Internet Connection and Try Again',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

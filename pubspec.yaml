@@ -37,7 +37,8 @@ dependencies:
   firebase_core: ^1.23.0
   firebase_auth: ^3.11.0
   http: ^0.13.5
-  youtube_player_flutter: ^8.1.0
+  youtube_player_flutter: ^8.1.1
+  cached_network_image: ^3.2.2
   connectivity_plus: ^2.3.7
   internet_connection_checker: ^1.0.0
   device_info_plus_web: ^3.0.0
