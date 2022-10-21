@@ -13,14 +13,14 @@ class PlaylistTutorialsCard extends StatelessWidget {
   final String videoCount;
   final String channelTitle;
   final String playlistTitle;
-  Function onTap;
+  Function() onTap;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap(),
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: InkWell(
+        onTap: onTap,
         child: Container(
           child: Column(
             children: [
@@ -28,13 +28,6 @@ class PlaylistTutorialsCard extends StatelessWidget {
                 height: 217,
                 width: 387,
                 decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black12,
-                      offset: Offset(0, 1),
-                      blurRadius: 6.0,
-                    )
-                  ],
                   image: DecorationImage(
                       alignment: FractionalOffset.center,
                       image: NetworkImage(playlistThumbnailUrl),

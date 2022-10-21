@@ -11,6 +11,7 @@ class NoInternetPage extends StatelessWidget {
     return Container(
       decoration: Constants.kBackground,
       child: Scaffold(
+        backgroundColor: Colors.transparent,
         body: Stack(
           children: [
             Center(

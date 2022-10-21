@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/models/playlist_model.dart';
 import 'package:tutorials_wallah/models/video_model.dart';
+import 'package:tutorials_wallah/screens/playlist_page.dart';
 import 'package:tutorials_wallah/services/api_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
 import 'package:tutorials_wallah/widget/playlist_tutorials_card.dart';
@@ -21,12 +23,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    super.initState();
     try {
       getPlaylists();
     } catch (e) {
       print(e);
     }
+    super.initState();
   }
 
   getPlaylists() async {
@@ -41,16 +43,25 @@ class _HomePageState extends State<HomePage> {
       "PLzOt3noWLMtjI12lI5KA9pVGCtqmTBjj5"
     ];
     _playlists = {};
-    for (int index = 0; index < _playlistIDs.length; index++) {
-      print(index);
-      var playlists = {
-        _playlistIDs[index].toString(): await APIService.instance
-            .fetchPlaylistWithPlaylistID(playlistId: _playlistIDs[index])
-      };
+    try {
+      Map<String, List<Playlist>> playlists = {};
+      for (int index = 0; index < _playlistIDs.length; index++) {
+        print(index);
+        playlists = {
+          _playlistIDs[index].toString(): await APIService.instance
+              .fetchPlaylistWithPlaylistID(playlistId: _playlistIDs[index])
+        };
 
-      _playlists.addEntries(playlists.entries);
-    }
-    setState(() {});
+        _playlists.addEntries(playlists.entries);
+        setState(() {});
+      }
+    } catch (e) {}
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _playlists = {};
   }
 
   @override
@@ -115,12 +126,27 @@ class _HomePageState extends State<HomePage> {
               itemCount: int.parse(_playlists.length.toString()),
               itemBuilder: (context, index) {
                 print("image !!!!");
+                var playlistIndex = _playlists[_playlistIDs[index]];
+                var title = playlistIndex![0].title;
+                var channelTitle = playlistIndex[0].channelTitle;
+                var videoCount = playlistIndex[0].videoCount;
                 return PlaylistTutorialsCard(
-                    playlistTitle: _playlists[_playlistIDs[index]]![0].title,
-                    channelTitle:
-                        _playlists[_playlistIDs[index]]![0].channelTitle,
-                    videoCount: _playlists[_playlistIDs[index]]![0].videoCount,
-                    onTap: () {},
+                    playlistTitle: title,
+                    channelTitle: channelTitle,
+                    videoCount: videoCount,
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => PlaylistPage(
+                              playlistID: _playlistIDs[index],
+                              title: title,
+                              videoCount: videoCount,
+                            ),
+                          )).then((value) {
+                        APIService.nextPageToken = '';
+                      });
+                    },
                     playlistThumbnailUrl:
                         _playlists[_playlistIDs[index]]![0].thumbnailUrl);
               },
