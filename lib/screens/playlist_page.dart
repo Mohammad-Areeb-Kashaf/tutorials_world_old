@@ -83,16 +83,16 @@ class _PlaylistPageState extends State<PlaylistPage> {
     );
   }
 
-  // _loadMoreVideos() async {
-  //   _isLoading = true;
-  //   List<Video> moreVideos = await APIService.instance
-  //       .fetchVideosFromPlaylist(playlistId: widget.playlistID);
-  //   List<Video> allVideos = _channel.videos..addAll(moreVideos);
-  //   setState(() {
-  //     _channel.videos = allVideos;
-  //   });
-  //   _isLoading = false;
-  // }
+  _loadMoreVideos() async {
+    _isLoading = true;
+    List<Video> moreVideos =
+        await api.fetchVideosFromPlaylist(playlistId: widget.playlistID);
+    List<Video> allVideos = videos..addAll(moreVideos);
+    setState(() {
+      videos = allVideos;
+    });
+    _isLoading = false;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +111,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
                         videos.length != int.parse(widget.videoCount) &&
                         scrollDetails.metrics.pixels ==
                             scrollDetails.metrics.maxScrollExtent) {
-                      // _loadMoreVideos();
+                      _loadMoreVideos();
                     }
                     return false;
                   },
