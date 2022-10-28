@@ -54,6 +54,7 @@ class APIService {
 
   Future<List<Video>> fetchVideosFromPlaylist(
       {required String playlistId}) async {
+    List<Video> videos = [];
     Map<String, String> parameters = {
       'part': 'snippet',
       'playlistId': playlistId,
@@ -79,7 +80,7 @@ class APIService {
       List<dynamic> videosJson = data['items'];
 
       // Fetch first eight videos from uploads playlist
-      List<Video> videos = [];
+
       videosJson.forEach(
         (json) => videos.add(
           Video.fromMap(json['snippet']),

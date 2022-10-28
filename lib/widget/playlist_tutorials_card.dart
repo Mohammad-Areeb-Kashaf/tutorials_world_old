@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class PlaylistTutorialsCard extends StatelessWidget {
@@ -25,13 +26,15 @@ class PlaylistTutorialsCard extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 217,
+                child: CachedNetworkImage(
+                  height: 217,
+                  width: 387,
+                  fit: BoxFit.cover,
+                  alignment: FractionalOffset.center,
+                  imageUrl: playlistThumbnailUrl,
+                ),
                 width: 387,
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                      alignment: FractionalOffset.center,
-                      image: NetworkImage(playlistThumbnailUrl),
-                      fit: BoxFit.cover),
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),

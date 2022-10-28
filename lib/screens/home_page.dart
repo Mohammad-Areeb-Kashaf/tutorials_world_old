@@ -2,7 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/models/playlist_model.dart';
-import 'package:tutorials_wallah/models/video_model.dart';
 import 'package:tutorials_wallah/screens/playlist_page.dart';
 import 'package:tutorials_wallah/services/api_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
@@ -143,9 +142,7 @@ class _HomePageState extends State<HomePage> {
                               title: title,
                               videoCount: videoCount,
                             ),
-                          )).then((value) {
-                        APIService.nextPageToken = '';
-                      });
+                          ));
                     },
                     playlistThumbnailUrl:
                         _playlists[_playlistIDs[index]]![0].thumbnailUrl);
@@ -153,7 +150,9 @@ class _HomePageState extends State<HomePage> {
             )
           : Center(
               child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Colors.white,
+                ),
               ),
             );
     } else if (_currentIndex == 1) {
