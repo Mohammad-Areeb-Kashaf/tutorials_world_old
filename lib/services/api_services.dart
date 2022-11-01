@@ -1,9 +1,10 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:tutorials_wallah/models/playlist_model.dart';
 import 'package:tutorials_wallah/models/video_model.dart';
 import 'package:tutorials_wallah/constants.dart';
+
+import '../screens/playlist_page.dart';
 
 class APIService {
   APIService._instantiate();
@@ -12,13 +13,14 @@ class APIService {
 
   final String _baseUrl = 'www.googleapis.com';
   static String nextPageToken = '';
+  static String maxResults = '8';
 
   Future<List<Playlist>> fetchPlaylistWithPlaylistID(
       {required String playlistId}) async {
     Map<String, String> parameters = {
       'part': 'snippet, contentDetails',
       'id': playlistId,
-      'maxResults': '8',
+      'maxResults': maxResults,
       'pageToken': nextPageToken,
       'key': Constants.API_KEY,
     };
@@ -28,14 +30,14 @@ class APIService {
       parameters,
     );
     Map<String, String> headers = {
-      HttpHeaders.contentTypeHeader: 'application/json',
+      'Accept': 'application/json',
     };
 
     //Get Playlist
     var response = await http.get(uri, headers: headers);
     if (response.statusCode == 200) {
       var data = json.decode(response.body);
-
+      PlaylistPageState.nextPageToken = data['nextPageToken'] ?? '';
       nextPageToken = data['nextPageToken'] ?? '';
       List<dynamic> playlistJson = data['items'];
 
@@ -58,7 +60,7 @@ class APIService {
     Map<String, String> parameters = {
       'part': 'snippet',
       'playlistId': playlistId,
-      'maxResults': '8',
+      'maxResults': maxResults,
       'pageToken': nextPageToken,
       'key': Constants.API_KEY,
     };
@@ -68,7 +70,7 @@ class APIService {
       parameters,
     );
     Map<String, String> headers = {
-      HttpHeaders.contentTypeHeader: 'application/json',
+      'Accept': 'application/json',
     };
 
     // Get Playlist Videos
@@ -83,7 +85,7 @@ class APIService {
 
       videosJson.forEach(
         (json) => videos.add(
-          Video.fromMap(json['snippet']),
+          Video.fromMap(json['snippet'], nextPageToken),
         ),
       );
       return videos;

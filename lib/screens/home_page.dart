@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> {
   var _currentIndex = 0;
   List _playlistIDs = [];
   Map<String, List<Playlist>> _playlists = {};
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -134,6 +133,7 @@ class _HomePageState extends State<HomePage> {
                     channelTitle: channelTitle,
                     videoCount: videoCount,
                     onTap: () {
+                      APIService.nextPageToken = '';
                       Navigator.push(
                           context,
                           CupertinoPageRoute(
@@ -150,6 +150,7 @@ class _HomePageState extends State<HomePage> {
             )
           : Center(
               child: CircularProgressIndicator(
+                strokeWidth: 5.0,
                 valueColor: AlwaysStoppedAnimation<Color>(
                   Colors.white,
                 ),

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/models/video_model.dart';
+import 'package:tutorials_wallah/screens/tutorial_viewer.dart';
 import 'package:tutorials_wallah/services/api_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
 
@@ -17,55 +19,66 @@ class PlaylistPage extends StatefulWidget {
   final videoCount;
 
   @override
-  State<PlaylistPage> createState() => _PlaylistPageState();
+  State<PlaylistPage> createState() => PlaylistPageState();
 }
 
-class _PlaylistPageState extends State<PlaylistPage> {
+class PlaylistPageState extends State<PlaylistPage> {
   bool _isLoading = false;
-  List<Video> videos = [];
-  final ScrollController _scrollController = ScrollController();
+  static String nextPageToken = '';
+  late List<Video> videos;
 
   @override
   void initState() {
     super.initState();
     try {
+      videos = [];
       _getVideos();
-      _scrollController.addListener(() {
-        if (_scrollController.position.pixels ==
-            _scrollController.position.maxScrollExtent && videos.length <= int.parse(widget.videoCount) && videos.length != int.parse(widget.videoCount)) {
-          print('${videos.length} != ${widget.videoCount}');
-          print("Loading More Videos");
-          _loadMoreVideos();
-          print('Loaded Videos');
-        }
-      });
+
     } catch (e) {
+      videos = [];
       print(e);
     }
   }
 
   _getVideos() async {
     try {
-      videos = await APIService.instance.fetchVideosFromPlaylist(playlistId: widget.playlistID);
-      setState(() {});
+      var result = await APIService.instance
+          .fetchVideosFromPlaylist(playlistId: widget.playlistID);
+      var allVideos = videos..addAll(result);
+      setState(() {
+        videos = allVideos;
+      });
       print(videos);
     } catch (e) {
+      videos = [];
       print(e);
     }
   }
 
   _loadMoreVideos() async {
-    List<Video> moreVideos =
-    await APIService.instance.fetchVideosFromPlaylist(playlistId: widget.playlistID);
-    List<Video> allVideos = videos..addAll(moreVideos);
-    videos = allVideos;
     setState(() {
+      _isLoading = true;
+    });
+    APIService.nextPageToken = videos.last.nextPageToken;
+    List<Video> moreVideos = await APIService.instance
+        .fetchVideosFromPlaylist(playlistId: widget.playlistID);
+    List<Video> allVideos = videos..addAll(moreVideos);
+    setState(() {
+      videos = allVideos;
+    });
+    setState(() {
+      _isLoading = false;
     });
   }
 
   _buildVideo(Video video) {
     return GestureDetector(
-      onTap: () => {},
+      onTap: () => {
+        Navigator.push(
+            context,
+            CupertinoPageRoute(
+                builder: (context) => TutorialViewer(id: video.id, title: video.title,)))
+      },
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
         padding: EdgeInsets.all(10.0),
@@ -116,34 +129,43 @@ class _PlaylistPageState extends State<PlaylistPage> {
             title: videos.isNotEmpty ? Text(widget.title) : Text(''),
           ),
           body: videos.isNotEmpty
-              ? ListView.builder(
-                  controller: _scrollController,
-                  itemCount: 1 + videos.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    if (index == videos.length && videos.length <= int.parse(widget.videoCount) && videos.length != int.parse(widget.videoCount)) {
-                      return Center(
-                          child: Container(
-                        child: SpinKitCircle(
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                      ));
-                    }
-                    if (index <= int.parse(widget.videoCount) && index != int.parse(widget.videoCount)) {
-                      Video video = videos[index];
-                      return _buildVideo(video);
-                    } else {
-                      return SizedBox.shrink();
-                    }
-
-                  },
-                  physics: BouncingScrollPhysics(),
-                )
+              ? NotificationListener<ScrollNotification>(
+            onNotification: (ScrollNotification scrollDetails) {
+              if (!_isLoading &&
+                  videos.length != int.parse(widget.videoCount) &&
+                  scrollDetails.metrics.pixels ==
+                      scrollDetails.metrics.maxScrollExtent) {
+                _loadMoreVideos();
+              }
+              return false;
+            },
+                child: LoadingOverlay(
+                  color: Colors.white,
+                  opacity: 0.8,
+                  progressIndicator: CircularProgressIndicator(
+                    strokeWidth: 5.0,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.deepPurple.shade600,
+                    ),
+                  ),
+                  isLoading: _isLoading,
+                  child: ListView.builder(
+                      itemCount: videos.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Video video = videos[index];
+                        return _buildVideo(video);
+                      },
+                      physics: _isLoading
+                          ? NeverScrollableScrollPhysics()
+                          : BouncingScrollPhysics(),
+                    ),
+                ),
+              )
               : Center(
-                  child: Container(
-                    child: SpinKitCircle(
-                      color: Colors.white,
-                      size: 60,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 5.0,
+                    valueColor: AlwaysStoppedAnimation<Color>(
+                      Colors.white,
                     ),
                   ),
                 ),
@@ -152,10 +174,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
       ),
     );
   }
+
   @override
   void dispose() {
     super.dispose();
-    videos = [];
     APIService.nextPageToken = '';
   }
 }
