@@ -1,12 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:tutorials_wallah/constants.dart';
+import 'package:tutorials_wallah/screens/home_page.dart';
 import 'package:tutorials_wallah/services/auth_errors.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/screens/sign_up_page.dart';
-import 'package:tutorials_wallah/widget/internet_checker.dart';
 
 class AuthForm extends StatefulWidget {
   final emailController;
@@ -33,27 +31,24 @@ class _AuthFormState extends State<AuthForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: Constants.kBackground,
-      child: Stack(
+    return SingleChildScrollView(
+      child: Column(
         children: [
-          Positioned.fill(
-            child: Container(
-              margin: EdgeInsets.only(top: 200),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  widget.isLogin ? "Sign In" : "Sign Up",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold),
-                ),
+          Container(
+            margin: EdgeInsets.only(top: 200),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Text(
+                widget.isLogin ? "Sign In" : "Sign Up",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold),
               ),
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 300),
+            padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 100),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
@@ -77,7 +72,10 @@ class _AuthFormState extends State<AuthForm> {
                                   bottom:
                                       BorderSide(color: Colors.grey.shade100))),
                           child: TextField(
+                            cursorColor: Colors.black,
+                            keyboardType: TextInputType.emailAddress,
                             controller: widget.emailController,
+                            selectionControls: CupertinoTextSelectionControls(),
                             decoration: InputDecoration(
                               errorText: emailErrorText,
                               border: InputBorder.none,
@@ -91,6 +89,10 @@ class _AuthFormState extends State<AuthForm> {
                         Container(
                           padding: EdgeInsets.all(8.0),
                           child: TextField(
+                            selectionControls: CupertinoTextSelectionControls(),
+                            cursorColor: Colors.black,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
                             controller: widget.passwordController,
                             decoration: InputDecoration(
                               errorText: passwordErrorText,
@@ -109,7 +111,13 @@ class _AuthFormState extends State<AuthForm> {
                     height: 30,
                   ),
                   GestureDetector(
-                    onTap: () async {},
+                    onTap: () {
+                      if (widget.isLogin) {
+                        authenticateLogin();
+                      } else {
+                        authenticateRegister();
+                      }
+                    },
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
@@ -142,7 +150,7 @@ class _AuthFormState extends State<AuthForm> {
                         )
                       : SizedBox.shrink(),
                   Padding(
-                    padding: const EdgeInsets.only(top: 180),
+                    padding: widget.isLogin ? EdgeInsets.only(top: 150.0) : EdgeInsets.only(top: 240.0),
                     child: GestureDetector(
                       onTap: () {
                         if (widget.isLogin) {
@@ -168,7 +176,7 @@ class _AuthFormState extends State<AuthForm> {
                                   : 'Already have an Account? ',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 16.0,
+                                fontSize: 18.0,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -222,19 +230,17 @@ class _AuthFormState extends State<AuthForm> {
       var password = widget.passwordController.text;
 
       try {
-        final user = await _auth.signInWithEmailAndPassword(
+        await _auth.signInWithEmailAndPassword(
             email: email, password: password);
-        //   Future.delayed(Duration.zero, () {
-        // Navigator.pushReplacement(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => Home(
-        //               user: _auth.currentUser!.uid,
-        //               isGoogleSignedIn: false,
-        //             )));
-        //   });
+        Future.delayed(Duration.zero, () {
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => HomePage(),
+            ),
+          );
+        });
       } catch (e) {
-        print(e);
         if (e.toString().contains('email')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
@@ -297,16 +303,15 @@ class _AuthFormState extends State<AuthForm> {
       var password = widget.passwordController.text;
 
       try {
-        final user = await _auth.createUserWithEmailAndPassword(
+        await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
         Future.delayed(Duration.zero, () {
-          // Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(
-          //         builder: (context) => Home(
-          //               user: _auth.currentUser!.uid,
-          //               isGoogleSignedIn: false,
-          //             )));
+          Navigator.pushReplacement(
+            context,
+            CupertinoPageRoute(
+              builder: (context) => HomePage(),
+            ),
+          );
         });
       } catch (e) {
         print(e);

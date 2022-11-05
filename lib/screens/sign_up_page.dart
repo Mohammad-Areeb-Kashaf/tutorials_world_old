@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/widget/authentication_form.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -14,11 +15,15 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AuthForm(
-        emailController: emailController,
-        passwordController: passwordController,
-        isLogin: false,
+    return Container(
+      decoration: Constants.kBackground,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: AuthForm(
+          emailController: emailController,
+          passwordController: passwordController,
+          isLogin: false,
+        ),
       ),
     );
   }

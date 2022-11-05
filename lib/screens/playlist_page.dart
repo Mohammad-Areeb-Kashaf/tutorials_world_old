@@ -99,6 +99,7 @@ class PlaylistPageState extends State<PlaylistPage> {
         child: Row(
           children: <Widget>[
             CachedNetworkImage(
+              fit: BoxFit.cover,
               imageUrl: video.thumbnailUrl,
               width: 150.0,
             ),

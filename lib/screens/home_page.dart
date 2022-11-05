@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
       "PLzOt3noWLMtjI12lI5KA9pVGCtqmTBjj5"
     ];
     _playlists = {};
+    _playlistIDs.shuffle();
     try {
       Map<String, List<Playlist>> playlists = {};
       for (int index = 0; index < _playlistIDs.length; index++) {

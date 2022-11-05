@@ -24,47 +24,52 @@ class _TutorialViewerState extends State<TutorialViewer> {
         enableCaption: false,
         mute: false,
         autoPlay: false,
+        forceHD: true,
       ),
     );
   }
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: Constants.kBackground,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          backgroundColor: Colors.deepPurple.shade600,
-        ),
-        body: Column(
-          children: [
-            YoutubePlayer(
-              controller: _controller,
-              showVideoProgressIndicator: true,
-              progressColors: ProgressBarColors(
-                playedColor: Colors.red,
-                handleColor: Colors.red,
-              ),
-              onReady: () {
-                print('Player is ready.');
-              },
+        decoration: Constants.kBackground,
+        child:
+          Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.deepPurple.shade600,
             ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    Text('Title: ${widget.title}', style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18.0,
-                    ),)
-                  ],
-                ),
+            body: SingleChildScrollView(
+              child: Column(
+                children: [
+                  YoutubePlayer(
+                    controller: _controller,
+                    showVideoProgressIndicator: true,
+                    progressColors: ProgressBarColors(
+                      backgroundColor: Colors.grey.shade600,
+                      playedColor: Colors.red,
+                      handleColor: Colors.red,
+                    ),
+                    onReady: () {
+                      print('Player is ready.');
+                    },
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text('Title: ${widget.title}', style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),)
+                        ],
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ),
-      ),
+            ),
+          ),
     );
   }
   @override
