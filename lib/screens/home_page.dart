@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/models/playlist_model.dart';
 import 'package:tutorials_wallah/screens/playlist_page.dart';
+import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/services/api_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
+import 'package:tutorials_wallah/widget/my_snackbar.dart';
 import 'package:tutorials_wallah/widget/playlist_tutorials_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,18 +18,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _auth = FirebaseAuth.instance;
   var _currentIndex = 0;
   List _playlistIDs = [];
   Map<String, List<Playlist>> _playlists = {};
 
   @override
   void initState() {
+    super.initState();
     try {
       getPlaylists();
     } catch (e) {
       print(e);
     }
-    super.initState();
   }
 
   getPlaylists() async {
@@ -38,7 +42,7 @@ class _HomePageState extends State<HomePage> {
       "PLzOt3noWLMthXqy_sRRzd15bptcGIKCF0",
       "PLzOt3noWLMthJKm8SJl2zmUlJiZp7fzo7",
       "PLzOt3noWLMtiX8unvZ_IryZDbD7qZ3nix",
-      "PLzOt3noWLMtjI12lI5KA9pVGCtqmTBjj5"
+      "PLzOt3noWLMtjI12lI5KA9pVGCtqmTBjj5",
     ];
     _playlists = {};
     _playlistIDs.shuffle();
@@ -107,86 +111,131 @@ class _HomePageState extends State<HomePage> {
             },
           ),
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.deepPurple.shade600,
-            centerTitle: true,
-            title: _showTitle(),
-          ),
+          appBar: _showAppBar(),
         ),
       ),
     );
   }
 
+  _showAppBar() {
+    if (_currentIndex == 0) {
+      return AppBar(
+        backgroundColor: Colors.deepPurple.shade600,
+        centerTitle: true,
+        title: Text('Tutorials Wallah'),
+      );
+    } else if (_currentIndex == 1) {
+      return AppBar(
+        backgroundColor: Colors.deepPurple.shade600,
+        centerTitle: true,
+        title: Text('Tutorials Wallah'),
+      );
+    } else if (_currentIndex == 2) {
+      return AppBar(
+        backgroundColor: Colors.deepPurple.shade600,
+        centerTitle: true,
+        title: Text('Tutorials Wallah'),
+      );
+    } else if (_currentIndex == 3) {
+      return AppBar(
+        backgroundColor: Colors.deepPurple.shade600,
+        centerTitle: true,
+        title: Text('Tutorials Wallah'),
+      );
+    } else {
+      return AppBar(
+        backgroundColor: Colors.deepPurple.shade600,
+        centerTitle: true,
+        title: Text('Tutorials Wallah'),
+      );
+    }
+  }
+
+  Widget _homePage() {
+    return _playlists.isNotEmpty
+        ? ListView.builder(
+            physics: BouncingScrollPhysics(),
+            itemCount: int.parse(_playlists.length.toString()),
+            itemBuilder: (context, index) {
+              print("image !!!!");
+              var playlistIndex = _playlists[_playlistIDs[index]];
+              var title = playlistIndex![0].title;
+              var channelTitle = playlistIndex[0].channelTitle;
+              var videoCount = playlistIndex[0].videoCount;
+              return PlaylistTutorialsCard(
+                  playlistTitle: title,
+                  channelTitle: channelTitle,
+                  videoCount: videoCount,
+                  onTap: () {
+                    APIService.nextPageToken = '';
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => PlaylistPage(
+                          playlistID: _playlistIDs[index],
+                          title: title,
+                          videoCount: videoCount,
+                        ),
+                      ),
+                    );
+                  },
+                  playlistThumbnailUrl:
+                      _playlists[_playlistIDs[index]]![0].thumbnailUrl);
+            },
+          )
+        : Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 5.0,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.white,
+              ),
+            ),
+          );
+  }
+
+  Widget _accountPage() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView(
+        physics: BouncingScrollPhysics(),
+        children: [
+          ListTile(
+            title: Text('Sign Out', style: TextStyle(
+              fontSize: 18,
+            ),),
+            onTap: () {
+              _auth.signOut();
+              showSnackBar(context, "Sign Out Successful");
+              Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => SignInPage()));
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _menuPage() {
+    return ListView(
+      physics: BouncingScrollPhysics(),
+      children: [
+        ListTile(
+          title: Text('Request a tutorial'),
+        ),
+      ],
+    );
+  }
+
   Widget _showScreen() {
     if (_currentIndex == 0) {
-      return _playlists.isNotEmpty
-          ? ListView.builder(
-              physics: BouncingScrollPhysics(),
-              itemCount: int.parse(_playlists.length.toString()),
-              itemBuilder: (context, index) {
-                print("image !!!!");
-                var playlistIndex = _playlists[_playlistIDs[index]];
-                var title = playlistIndex![0].title;
-                var channelTitle = playlistIndex[0].channelTitle;
-                var videoCount = playlistIndex[0].videoCount;
-                return PlaylistTutorialsCard(
-                    playlistTitle: title,
-                    channelTitle: channelTitle,
-                    videoCount: videoCount,
-                    onTap: () {
-                      APIService.nextPageToken = '';
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                            builder: (context) => PlaylistPage(
-                              playlistID: _playlistIDs[index],
-                              title: title,
-                              videoCount: videoCount,
-                            ),
-                          ));
-                    },
-                    playlistThumbnailUrl:
-                        _playlists[_playlistIDs[index]]![0].thumbnailUrl);
-              },
-            )
-          : Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 5.0,
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  Colors.white,
-                ),
-              ),
-            );
+      return _homePage();
     } else if (_currentIndex == 1) {
       return Center(
         child: Text('Search Page'),
       );
     } else if (_currentIndex == 2) {
-      return Center(
-        child: Text('Account Page'),
-      );
-    } else if (_currentIndex == 3) {
-      return Center(
-        child: Text('Menu'),
-      );
+      return _accountPage();
     } else {
-      return Center(
-        child: Text('Pata Nahi kounsa Page hai???'),
-      );
-    }
-  }
-
-  Widget _showTitle() {
-    if (_currentIndex == 0) {
-      return Text('Tutorials Wallah');
-    } else if (_currentIndex == 1) {
-      return Text('');
-    } else if (_currentIndex == 2) {
-      return Text('');
-    } else if (_currentIndex == 3) {
-      return Text('');
-    } else {
-      return Text('');
+      return _menuPage();
     }
   }
 }

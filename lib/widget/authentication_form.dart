@@ -7,9 +7,9 @@ import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/screens/sign_up_page.dart';
 
 class AuthForm extends StatefulWidget {
-  final emailController;
-  final passwordController;
-  final isLogin;
+  var emailController;
+  var passwordController;
+  var isLogin;
 
   AuthForm({
     Key? key,
@@ -24,10 +24,8 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   final _auth = FirebaseAuth.instance;
-
-  var emailErrorText = null;
-
-  var passwordErrorText = null;
+  var emailErrorText;
+  var passwordErrorText;
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +111,9 @@ class _AuthFormState extends State<AuthForm> {
                   GestureDetector(
                     onTap: () {
                       if (widget.isLogin) {
-                        authenticateLogin();
+                        authenticateSignIn();
                       } else {
-                        authenticateRegister();
+                        authenticateSignUp();
                       }
                     },
                     child: Container(
@@ -150,7 +148,9 @@ class _AuthFormState extends State<AuthForm> {
                         )
                       : SizedBox.shrink(),
                   Padding(
-                    padding: widget.isLogin ? EdgeInsets.only(top: 150.0) : EdgeInsets.only(top: 240.0),
+                    padding: widget.isLogin
+                        ? EdgeInsets.only(top: 150.0)
+                        : EdgeInsets.only(top: 240.0),
                     child: GestureDetector(
                       onTap: () {
                         if (widget.isLogin) {
@@ -202,7 +202,7 @@ class _AuthFormState extends State<AuthForm> {
     );
   }
 
-  authenticateLogin() async {
+  authenticateSignIn() async {
     setState(() {
       emailErrorText = null;
       passwordErrorText = null;
@@ -230,47 +230,51 @@ class _AuthFormState extends State<AuthForm> {
       var password = widget.passwordController.text;
 
       try {
+        print('signing in');
         await _auth.signInWithEmailAndPassword(
             email: email, password: password);
-        Future.delayed(Duration.zero, () {
-          Navigator.pushReplacement(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => HomePage(),
-            ),
-          );
-        });
+
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
       } catch (e) {
-        if (e.toString().contains('email')) {
+        if (e.toString().toLowerCase().split(' ').contains('email')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
                 e: e, isEmail: true, isUser: false, isPassword: false);
           });
-        } else if (e.toString().contains('wrong-password')) {
+        } else if (e
+            .toString()
+            .toLowerCase()
+            .split(' ')
+            .contains('wrong-password')) {
           setState(() {
             passwordErrorText = checkLoginAuthError(
                 e: e, isEmail: false, isUser: false, isPassword: true);
           });
-        } else if (e.toString().contains('user')) {
+        } else if (e.toString().toLowerCase().split(' ').contains('user')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
                 e: e, isEmail: false, isUser: true, isPassword: false);
             passwordErrorText = checkLoginAuthError(
                 e: e, isEmail: false, isUser: true, isPassword: false);
           });
-        } else if (e.toString().contains('device')) {
+        } else if (e.toString().toLowerCase().split(' ').contains('device')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
                 e: e, isEmail: false, isUser: true, isPassword: false);
             passwordErrorText = checkLoginAuthError(
                 e: e, isEmail: false, isUser: true, isPassword: false);
           });
-        }
+        } else {}
       }
     }
   }
 
-  authenticateRegister() async {
+  authenticateSignUp() async {
     setState(() {
       emailErrorText = null;
       passwordErrorText = null;
@@ -293,11 +297,13 @@ class _AuthFormState extends State<AuthForm> {
       setState(() {
         passwordErrorText = 'Password should at least contain 6 characters';
       });
-    } else if (widget.emailController.text.toString().contains('@') == false) {
-      emailErrorText = "Email should contain '@'";
-    } else if (widget.emailController.text.toString().contains('.com') ==
+    } else if (widget.emailController.text
+            .toString()
+            .toLowerCase()
+            .split(' ')
+            .contains('@') ==
         false) {
-      emailErrorText = "Email should contain '.com'";
+      emailErrorText = "Email should contain '@'";
     } else {
       var email = widget.emailController.text;
       var password = widget.passwordController.text;
@@ -305,22 +311,19 @@ class _AuthFormState extends State<AuthForm> {
       try {
         await _auth.createUserWithEmailAndPassword(
             email: email, password: password);
-        Future.delayed(Duration.zero, () {
           Navigator.pushReplacement(
             context,
             CupertinoPageRoute(
               builder: (context) => HomePage(),
             ),
           );
-        });
       } catch (e) {
-        print(e);
-        if (e.toString().contains('email')) {
+        if (e.toString().toLowerCase().split(' ').contains('email')) {
           setState(() {
             emailErrorText =
                 checkRegisterAuthError(e: e, isEmail: true, isUser: false);
           });
-        } else if (e.toString().contains('network')) {
+        } else if (e.toString().toLowerCase().split(' ').contains('network')) {
           setState(() {
             emailErrorText =
                 checkRegisterAuthError(e: e, isEmail: false, isUser: true);
