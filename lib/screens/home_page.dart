@@ -9,6 +9,7 @@ import 'package:tutorials_wallah/services/api_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
 import 'package:tutorials_wallah/widget/my_snackbar.dart';
 import 'package:tutorials_wallah/widget/playlist_tutorials_card.dart';
+import 'package:cupertino_icons/cupertino_icons.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -74,42 +75,7 @@ class _HomePageState extends State<HomePage> {
         decoration: Constants.kBackground,
         child: Scaffold(
           body: _showScreen(),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedFontSize: 16.0,
-            showSelectedLabels: true,
-            showUnselectedLabels: false,
-            fixedColor: Colors.white,
-            unselectedItemColor: Colors.grey.shade500,
-            currentIndex: _currentIndex,
-            type: BottomNavigationBarType.shifting,
-            items: [
-              BottomNavigationBarItem(
-                backgroundColor: Colors.deepPurple.shade800,
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.search),
-                label: 'Search',
-                backgroundColor: Colors.deepPurple.shade800,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.account_circle),
-                label: 'Account',
-                backgroundColor: Colors.deepPurple.shade800,
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.menu),
-                label: 'Menu',
-                backgroundColor: Colors.deepPurple.shade800,
-              ),
-            ],
-            onTap: (value) {
-              setState(() {
-                _currentIndex = value;
-              });
-            },
-          ),
+          bottomNavigationBar: _bottomNavigationBar(),
           backgroundColor: Colors.transparent,
           appBar: _showAppBar(),
         ),
@@ -151,11 +117,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _homePage() {
+  Widget _playlistsPage() {
     return _playlists.isNotEmpty
         ? ListView.builder(
             physics: BouncingScrollPhysics(),
-            itemCount: int.parse(_playlists.length.toString()),
+            itemCount: _playlists.length,
             itemBuilder: (context, index) {
               print("image !!!!");
               var playlistIndex = _playlists[_playlistIDs[index]];
@@ -200,13 +166,17 @@ class _HomePageState extends State<HomePage> {
         physics: BouncingScrollPhysics(),
         children: [
           ListTile(
-            title: Text('Sign Out', style: TextStyle(
-              fontSize: 18,
-            ),),
+            title: Text(
+              'Sign Out',
+              style: TextStyle(
+                fontSize: 18,
+              ),
+            ),
             onTap: () {
               _auth.signOut();
               showSnackBar(context, "Sign Out Successful");
-              Navigator.pushReplacement(context, CupertinoPageRoute(builder: (context) => SignInPage()));
+              Navigator.pushReplacement(context,
+                  CupertinoPageRoute(builder: (context) => SignInPage()));
             },
           ),
         ],
@@ -219,7 +189,12 @@ class _HomePageState extends State<HomePage> {
       physics: BouncingScrollPhysics(),
       children: [
         ListTile(
-          title: Text('Request a tutorial'),
+          title: Text(
+            'Request a tutorial',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
         ),
       ],
     );
@@ -227,15 +202,52 @@ class _HomePageState extends State<HomePage> {
 
   Widget _showScreen() {
     if (_currentIndex == 0) {
-      return _homePage();
+      return Text('');
     } else if (_currentIndex == 1) {
-      return Center(
-        child: Text('Search Page'),
-      );
+      return _playlistsPage();
     } else if (_currentIndex == 2) {
       return _accountPage();
     } else {
       return _menuPage();
     }
+  }
+
+  BottomNavigationBar _bottomNavigationBar() {
+    return BottomNavigationBar(
+      selectedFontSize: 16.0,
+      showSelectedLabels: true,
+      showUnselectedLabels: false,
+      fixedColor: Colors.white,
+      unselectedItemColor: Colors.grey.shade500,
+      currentIndex: _currentIndex,
+      type: BottomNavigationBarType.shifting,
+      items: [
+        BottomNavigationBarItem(
+          backgroundColor: Colors.deepPurple.shade800,
+          icon: Icon(CupertinoIcons.play_arrow_solid),
+          label: 'Videos',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.square_list_fill),
+          label: 'Playlists',
+          backgroundColor: Colors.deepPurple.shade800,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.profile_circled),
+          label: 'Account',
+          backgroundColor: Colors.deepPurple.shade800,
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(CupertinoIcons.line_horizontal_3),
+          label: 'Menu',
+          backgroundColor: Colors.deepPurple.shade800,
+        ),
+      ],
+      onTap: (value) {
+        setState(() {
+          _currentIndex = value;
+        });
+      },
+    );
   }
 }

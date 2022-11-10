@@ -310,13 +310,15 @@ class _AuthFormState extends State<AuthForm> {
 
       try {
         await _auth.createUserWithEmailAndPassword(
-            email: email, password: password);
-          Navigator.pushReplacement(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => HomePage(),
-            ),
-          );
+          email: email,
+          password: password,
+        );
+        Navigator.pushReplacement(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
       } catch (e) {
         if (e.toString().toLowerCase().split(' ').contains('email')) {
           setState(() {
