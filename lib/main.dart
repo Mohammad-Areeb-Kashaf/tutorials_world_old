@@ -28,12 +28,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Tutorials Wallah',
         theme: ThemeData(
-            listTileTheme: const ListTileThemeData(
-                textColor: Colors.black,
-                tileColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                ))),
+          scaffoldBackgroundColor: Colors.transparent,
+          listTileTheme: const ListTileThemeData(
+            textColor: Colors.black,
+            tileColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+          ),
+        ),
         home: _auth.currentUser != null ? HomePage() : SignInPage(),
       ),
     );

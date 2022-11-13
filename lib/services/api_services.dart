@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:tutorials_wallah/models/playlist_model.dart';
 import 'package:tutorials_wallah/models/video_model.dart';
 import 'package:tutorials_wallah/constants.dart';
+import 'package:tutorials_wallah/services/network_services.dart';
 
 import '../screens/playlist_page.dart';
 
@@ -34,23 +35,28 @@ class APIService {
     };
 
     //Get Playlist
-    var response = await http.get(uri, headers: headers);
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      PlaylistPageState.nextPageToken = data['nextPageToken'] ?? '';
-      nextPageToken = data['nextPageToken'] ?? '';
-      List<dynamic> playlistJson = data['items'];
+    try {
+      var response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        PlaylistPageState.nextPageToken = data['nextPageToken'] ?? '';
+        nextPageToken = data['nextPageToken'] ?? '';
+        List<dynamic> playlistJson = data['items'];
 
-      // Fetch first eight videos from uploads playlist
-      List<Playlist> playlists = [];
-      playlistJson.forEach(
-        (json) => playlists.add(
-          Playlist.fromMap(json),
-        ),
-      );
-      return playlists;
-    } else {
-      throw json.decode(response.body)['error']['message'];
+        // Fetch first eight videos from uploads playlist
+        List<Playlist> playlists = [];
+        playlistJson.forEach(
+          (json) => playlists.add(
+            Playlist.fromMap(json),
+          ),
+        );
+        return playlists;
+      } else {
+        throw json.decode(response.body)['error']['message'];
+      }
+    } catch (e) {
+      NetworkStatusService().checkInternet();
+      throw e;
     }
   }
 
@@ -74,23 +80,28 @@ class APIService {
     };
 
     // Get Playlist Videos
-    var response = await http.get(uri, headers: headers);
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
+    try {
+      var response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
 
-      nextPageToken = data['nextPageToken'] ?? '';
-      List<dynamic> videosJson = data['items'];
+        nextPageToken = data['nextPageToken'] ?? '';
+        List<dynamic> videosJson = data['items'];
 
-      // Fetch first eight videos from uploads playlist
+        // Fetch first eight videos from uploads playlist
 
-      videosJson.forEach(
-        (json) => videos.add(
-          Video.fromMap(json['snippet'], nextPageToken),
-        ),
-      );
-      return videos;
-    } else {
-      throw json.decode(response.body)['error']['message'];
+        videosJson.forEach(
+          (json) => videos.add(
+            Video.fromMap(json['snippet'], nextPageToken),
+          ),
+        );
+        return videos;
+      } else {
+        throw json.decode(response.body)['error']['message'];
+      }
+    } catch (e) {
+      NetworkStatusService().checkInternet();
+      throw e;
     }
   }
 }

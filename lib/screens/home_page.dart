@@ -6,6 +6,7 @@ import 'package:tutorials_wallah/models/playlist_model.dart';
 import 'package:tutorials_wallah/screens/playlist_page.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/services/api_services.dart';
+import 'package:tutorials_wallah/services/network_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
 import 'package:tutorials_wallah/widget/my_snackbar.dart';
 import 'package:tutorials_wallah/widget/playlist_tutorials_card.dart';
@@ -59,7 +60,9 @@ class _HomePageState extends State<HomePage> {
         _playlists.addEntries(playlists.entries);
         setState(() {});
       }
-    } catch (e) {}
+    } catch (e) {
+      NetworkStatusService().checkInternet();
+    }
   }
 
   @override
