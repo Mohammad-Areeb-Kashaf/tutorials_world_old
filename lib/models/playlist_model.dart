@@ -6,11 +6,11 @@ class Playlist {
   final String channelTitle;
 
   Playlist({
-    required String this.id,
-    required String this.title,
-    required String this.thumbnailUrl,
-    required String this.videoCount,
-    required String this.channelTitle,
+    required this.id,
+    required this.title,
+    required this.thumbnailUrl,
+    required this.videoCount,
+    required this.channelTitle,
   });
 
   factory Playlist.fromMap(

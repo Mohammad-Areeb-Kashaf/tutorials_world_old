@@ -5,6 +5,7 @@ import 'package:tutorials_wallah/screens/home_page.dart';
 import 'package:tutorials_wallah/services/auth_errors.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/screens/sign_up_page.dart';
+import 'package:tutorials_wallah/widget/my_text_field.dart';
 
 class AuthForm extends StatefulWidget {
   var emailController;
@@ -33,12 +34,12 @@ class _AuthFormState extends State<AuthForm> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(top: 200),
+            margin: const EdgeInsets.only(top: 200),
             child: Align(
               alignment: Alignment.topCenter,
               child: Text(
                 widget.isLogin ? "Sign In" : "Sign Up",
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontSize: 40,
                     fontWeight: FontWeight.bold),
@@ -46,16 +47,16 @@ class _AuthFormState extends State<AuthForm> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 30.0, right: 30.0, top: 100),
+            padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 100),
             child: SingleChildScrollView(
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                               color: Color.fromRGBO(143, 148, 251, .2),
                               blurRadius: 20.0,
@@ -63,49 +64,24 @@ class _AuthFormState extends State<AuthForm> {
                         ]),
                     child: Column(
                       children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              border: Border(
-                                  bottom:
-                                      BorderSide(color: Colors.grey.shade100))),
-                          child: TextField(
-                            cursorColor: Colors.black,
-                            keyboardType: TextInputType.emailAddress,
-                            controller: widget.emailController,
-                            selectionControls: CupertinoTextSelectionControls(),
-                            decoration: InputDecoration(
-                              errorText: emailErrorText,
-                              border: InputBorder.none,
-                              hintText: "Email",
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                          ),
+                        MyTextField(
+                          controller: widget.emailController,
+                          errorText: emailErrorText,
+                          hintText: "Enter Email",
+                          icon: Icons.person_outline,
+                          isEmail: true,
                         ),
-                        Container(
-                          padding: EdgeInsets.all(8.0),
-                          child: TextField(
-                            selectionControls: CupertinoTextSelectionControls(),
-                            cursorColor: Colors.black,
-                            keyboardType: TextInputType.visiblePassword,
-                            obscureText: true,
-                            controller: widget.passwordController,
-                            decoration: InputDecoration(
-                              errorText: passwordErrorText,
-                              border: InputBorder.none,
-                              hintText: "Password",
-                              hintStyle: TextStyle(
-                                color: Colors.grey[400],
-                              ),
-                            ),
-                          ),
-                        )
+                        MyTextField(
+                          controller: widget.passwordController,
+                          errorText: passwordErrorText,
+                          hintText: "Enter Password",
+                          icon: Icons.lock_outline,
+                          isEmail: false,
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   GestureDetector(
@@ -127,7 +103,7 @@ class _AuthFormState extends State<AuthForm> {
                       child: Center(
                         child: Text(
                           widget.isLogin ? "Sign In" : "Sign Up",
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -137,20 +113,20 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                   ),
                   widget.isLogin
-                      ? SizedBox(
+                      ? const SizedBox(
                           height: 70,
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   widget.isLogin
-                      ? Text(
+                      ? const Text(
                           "Forgot Password?",
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         )
-                      : SizedBox.shrink(),
+                      : const SizedBox.shrink(),
                   Padding(
                     padding: widget.isLogin
-                        ? EdgeInsets.only(top: 150.0)
-                        : EdgeInsets.only(top: 240.0),
+                        ? const EdgeInsets.only(top: 150.0)
+                        : const EdgeInsets.only(top: 175.0),
                     child: GestureDetector(
                       onTap: () {
                         if (widget.isLogin) {
@@ -174,7 +150,7 @@ class _AuthFormState extends State<AuthForm> {
                               text: widget.isLogin
                                   ? 'Don\'t have an Account? '
                                   : 'Already have an Account? ',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w400,
@@ -182,7 +158,7 @@ class _AuthFormState extends State<AuthForm> {
                             ),
                             TextSpan(
                               text: widget.isLogin ? 'Sign Up' : 'Sign In',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,

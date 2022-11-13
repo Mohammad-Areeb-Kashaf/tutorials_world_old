@@ -20,7 +20,7 @@ class _TutorialViewerState extends State<TutorialViewer> {
     super.initState();
     _controller = YoutubePlayerController(
       initialVideoId: widget.id,
-      flags: YoutubePlayerFlags(
+      flags: const YoutubePlayerFlags(
         enableCaption: false,
         mute: false,
         autoPlay: true,
@@ -44,12 +44,11 @@ class _TutorialViewerState extends State<TutorialViewer> {
                 player,
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                      child: Text(
+                  child: Text(
                     'Title: ${widget.title}',
-                    style: TextStyle(color: Colors.white, fontSize: 18),
-                  )),
-                )
+                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
               ],
             ),
           ),
@@ -68,6 +67,9 @@ class _TutorialViewerState extends State<TutorialViewer> {
         handleColor: Colors.red,
       ),
       onReady: () {},
+      onEnded: (metadata) {
+        Navigator.of(context).pop();
+      },
     );
   }
 

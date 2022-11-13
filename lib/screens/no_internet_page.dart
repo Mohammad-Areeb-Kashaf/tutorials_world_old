@@ -24,14 +24,14 @@ class _NoInternetPageState extends State<NoInternetPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'Internet Not Available, Please Check Your Internet Connection and Try Again',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   GestureDetector(
@@ -47,7 +47,7 @@ class _NoInternetPageState extends State<NoInternetPage> {
                             Colors.deepPurple.shade500,
                             Colors.deepPurple.shade600,
                           ])),
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           "Retry",
                           style: TextStyle(

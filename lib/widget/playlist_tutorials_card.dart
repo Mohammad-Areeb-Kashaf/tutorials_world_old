@@ -23,18 +23,17 @@ class PlaylistTutorialsCard extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: ClipRRect(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           child: Container(
+            color: Colors.white,
             child: Column(
               children: [
-                Container(
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      alignment: FractionalOffset.center,
-                      imageUrl: playlistThumbnailUrl,
-                    ),
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: CachedNetworkImage(
+                    fit: BoxFit.cover,
+                    alignment: FractionalOffset.center,
+                    imageUrl: playlistThumbnailUrl,
                   ),
                 ),
                 Padding(
@@ -42,7 +41,7 @@ class PlaylistTutorialsCard extends StatelessWidget {
                       vertical: 4.0, horizontal: 6.0),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'Title: ',
                         style: TextStyle(
                           fontSize: 18,
@@ -52,7 +51,7 @@ class PlaylistTutorialsCard extends StatelessWidget {
                         child: Text(
                           playlistTitle,
                           softWrap: true,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                           ),
                         ),
@@ -65,7 +64,7 @@ class PlaylistTutorialsCard extends StatelessWidget {
                       vertical: 4.0, horizontal: 6.0),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'Video Count: ',
                         style: TextStyle(
                           fontSize: 18,
@@ -73,7 +72,7 @@ class PlaylistTutorialsCard extends StatelessWidget {
                       ),
                       Text(
                         videoCount,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18,
                         ),
                       ),
@@ -87,7 +86,7 @@ class PlaylistTutorialsCard extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Text(
+                          const Text(
                             'Creator: ',
                             style: TextStyle(
                               fontSize: 18,
@@ -95,7 +94,7 @@ class PlaylistTutorialsCard extends StatelessWidget {
                           ),
                           Text(
                             channelTitle,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontSize: 18,
                             ),
                           ),
@@ -106,7 +105,6 @@ class PlaylistTutorialsCard extends StatelessWidget {
                 ),
               ],
             ),
-            color: Colors.white,
           ),
         ),
       ),

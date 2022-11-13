@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         title: 'Tutorials Wallah',
         theme: ThemeData(
           fontFamily: GoogleFonts.montserrat().fontFamily,
-          appBarTheme: AppBarTheme(
+          appBarTheme: const AppBarTheme(
             titleTextStyle: TextStyle(fontFamily: 'Marhey', fontSize: 20),
             backgroundColor: Colors.transparent,
             elevation: 0.0,
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
               bottom: BorderSide(color: Colors.black, width: 1),
             ),
           ),
-          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
             backgroundColor: Color(0xff6539b3),
           ),
           scaffoldBackgroundColor: Colors.transparent,

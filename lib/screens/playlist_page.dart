@@ -87,10 +87,10 @@ class PlaylistPageState extends State<PlaylistPage> {
                     )))
       },
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-        padding: EdgeInsets.all(10.0),
+        margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
+        padding: const EdgeInsets.all(10.0),
         height: 150.0,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(20),
           ),
@@ -115,11 +115,11 @@ class PlaylistPageState extends State<PlaylistPage> {
                 ),
               ),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Expanded(
               child: Text(
                 video.title,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.black,
                   fontSize: 18.0,
                 ),
@@ -135,10 +135,11 @@ class PlaylistPageState extends State<PlaylistPage> {
   Widget build(BuildContext context) {
     return InternetChecker(
       child: Container(
+        decoration: Constants.kBackground,
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: videos.isNotEmpty ? Text(widget.title) : Text(''),
+            title: videos.isNotEmpty ? Text(widget.title) : const Text(''),
           ),
           body: videos.isNotEmpty
               ? NotificationListener<ScrollNotification>(
@@ -168,12 +169,12 @@ class PlaylistPageState extends State<PlaylistPage> {
                         return _buildVideo(video);
                       },
                       physics: _isLoading
-                          ? NeverScrollableScrollPhysics()
-                          : BouncingScrollPhysics(),
+                          ? const NeverScrollableScrollPhysics()
+                          : const BouncingScrollPhysics(),
                     ),
                   ),
                 )
-              : Center(
+              : const Center(
                   child: CircularProgressIndicator(
                     strokeWidth: 5.0,
                     valueColor: AlwaysStoppedAnimation<Color>(
@@ -182,7 +183,6 @@ class PlaylistPageState extends State<PlaylistPage> {
                   ),
                 ),
         ),
-        decoration: Constants.kBackground,
       ),
     );
   }

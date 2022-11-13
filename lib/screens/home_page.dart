@@ -90,27 +90,27 @@ class _HomePageState extends State<HomePage> {
     if (_currentIndex == 0) {
       return AppBar(
         centerTitle: true,
-        title: Text('Tutorials Wallah'),
+        title: const Text('Tutorials Wallah'),
       );
     } else if (_currentIndex == 1) {
       return AppBar(
         centerTitle: true,
-        title: Text('Tutorials Wallah'),
+        title: const Text('Tutorials Wallah'),
       );
     } else if (_currentIndex == 2) {
       return AppBar(
         centerTitle: true,
-        title: Text('Tutorials Wallah'),
+        title: const Text('Tutorials Wallah'),
       );
     } else if (_currentIndex == 3) {
       return AppBar(
         centerTitle: true,
-        title: Text('Tutorials Wallah'),
+        title: const Text('Tutorials Wallah'),
       );
     } else {
       return AppBar(
         centerTitle: true,
-        title: Text('Tutorials Wallah'),
+        title: const Text('Tutorials Wallah'),
       );
     }
   }
@@ -118,7 +118,7 @@ class _HomePageState extends State<HomePage> {
   Widget _playlistsPage() {
     return _playlists.isNotEmpty
         ? ListView.builder(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: _playlists.length,
             itemBuilder: (context, index) {
               print("image !!!!");
@@ -147,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                       _playlists[_playlistIDs[index]]![0].thumbnailUrl);
             },
           )
-        : Center(
+        : const Center(
             child: CircularProgressIndicator(
               strokeWidth: 5.0,
               valueColor: AlwaysStoppedAnimation<Color>(
@@ -161,10 +161,10 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         children: [
           ListTile(
-            title: Text(
+            title: const Text(
               'Sign Out',
               style: TextStyle(
                 fontSize: 18,
@@ -186,8 +186,8 @@ class _HomePageState extends State<HomePage> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: ListView(
-        physics: BouncingScrollPhysics(),
-        children: [
+        physics: const BouncingScrollPhysics(),
+        children: const [
           ListTile(
             title: Text(
               'Request a tutorial',
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _showScreen() {
     if (_currentIndex == 0) {
-      return Text('');
+      return const Text('');
     } else if (_currentIndex == 1) {
       return _playlistsPage();
     } else if (_currentIndex == 2) {
@@ -222,7 +222,7 @@ class _HomePageState extends State<HomePage> {
       currentIndex: _currentIndex,
       elevation: 0.0,
       type: BottomNavigationBarType.shifting,
-      items: [
+      items: const [
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.play_arrow_solid),
           label: 'Videos',
