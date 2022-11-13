@@ -37,9 +37,7 @@ class _TutorialViewerState extends State<TutorialViewer> {
         child: Container(
           decoration: Constants.kBackground,
           child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.deepPurple.shade600,
-            ),
+            appBar: AppBar(),
             backgroundColor: Colors.transparent,
             body: ListView(
               children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import './firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -28,6 +29,18 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Tutorials Wallah',
         theme: ThemeData(
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+          appBarTheme: AppBarTheme(
+            titleTextStyle: TextStyle(fontFamily: 'Marhey', fontSize: 20),
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            shape: Border(
+              bottom: BorderSide(color: Colors.black, width: 1),
+            ),
+          ),
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            backgroundColor: Color(0xff6539b3),
+          ),
           scaffoldBackgroundColor: Colors.transparent,
           listTileTheme: const ListTileThemeData(
             textColor: Colors.black,

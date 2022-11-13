@@ -138,7 +138,6 @@ class PlaylistPageState extends State<PlaylistPage> {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            backgroundColor: Colors.deepPurple.shade600,
             title: videos.isNotEmpty ? Text(widget.title) : Text(''),
           ),
           body: videos.isNotEmpty

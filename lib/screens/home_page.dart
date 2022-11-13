@@ -89,31 +89,26 @@ class _HomePageState extends State<HomePage> {
   _showAppBar() {
     if (_currentIndex == 0) {
       return AppBar(
-        backgroundColor: Colors.deepPurple.shade600,
         centerTitle: true,
         title: Text('Tutorials Wallah'),
       );
     } else if (_currentIndex == 1) {
       return AppBar(
-        backgroundColor: Colors.deepPurple.shade600,
         centerTitle: true,
         title: Text('Tutorials Wallah'),
       );
     } else if (_currentIndex == 2) {
       return AppBar(
-        backgroundColor: Colors.deepPurple.shade600,
         centerTitle: true,
         title: Text('Tutorials Wallah'),
       );
     } else if (_currentIndex == 3) {
       return AppBar(
-        backgroundColor: Colors.deepPurple.shade600,
         centerTitle: true,
         title: Text('Tutorials Wallah'),
       );
     } else {
       return AppBar(
-        backgroundColor: Colors.deepPurple.shade600,
         centerTitle: true,
         title: Text('Tutorials Wallah'),
       );
@@ -188,18 +183,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _menuPage() {
-    return ListView(
-      physics: BouncingScrollPhysics(),
-      children: [
-        ListTile(
-          title: Text(
-            'Request a tutorial',
-            style: TextStyle(
-              fontSize: 18,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListView(
+        physics: BouncingScrollPhysics(),
+        children: [
+          ListTile(
+            title: Text(
+              'Request a tutorial',
+              style: TextStyle(
+                fontSize: 18,
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -220,30 +218,30 @@ class _HomePageState extends State<HomePage> {
       selectedFontSize: 16.0,
       showSelectedLabels: true,
       showUnselectedLabels: false,
-      fixedColor: Colors.white,
       unselectedItemColor: Colors.grey.shade500,
       currentIndex: _currentIndex,
+      elevation: 0.0,
       type: BottomNavigationBarType.shifting,
       items: [
         BottomNavigationBarItem(
-          backgroundColor: Colors.deepPurple.shade800,
           icon: Icon(CupertinoIcons.play_arrow_solid),
           label: 'Videos',
+          backgroundColor: Colors.transparent,
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.square_list_fill),
           label: 'Playlists',
-          backgroundColor: Colors.deepPurple.shade800,
+          backgroundColor: Colors.transparent,
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.profile_circled),
           label: 'Account',
-          backgroundColor: Colors.deepPurple.shade800,
+          backgroundColor: Colors.transparent,
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.line_horizontal_3),
           label: 'Menu',
-          backgroundColor: Colors.deepPurple.shade800,
+          backgroundColor: Colors.transparent,
         ),
       ],
       onTap: (value) {
