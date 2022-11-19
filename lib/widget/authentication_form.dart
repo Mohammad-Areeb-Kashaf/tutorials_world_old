@@ -6,6 +6,7 @@ import 'package:tutorials_wallah/services/auth_errors.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/screens/sign_up_page.dart';
 import 'package:tutorials_wallah/widget/my_text_field.dart';
+import 'package:tutorials_wallah/constants.dart';
 
 class AuthForm extends StatefulWidget {
   var emailController;
@@ -40,7 +41,7 @@ class _AuthFormState extends State<AuthForm> {
               child: Text(
                 widget.isLogin ? "Sign In" : "Sign Up",
                 style: const TextStyle(
-                    color: Colors.white,
+                    color: Constants.purpleColor,
                     fontSize: 40,
                     fontWeight: FontWeight.bold),
               ),
@@ -95,11 +96,9 @@ class _AuthFormState extends State<AuthForm> {
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(colors: [
-                            Colors.deepPurple.shade500,
-                            Colors.deepPurple.shade600,
-                          ])),
+                        borderRadius: BorderRadius.circular(10),
+                        color: Constants.purpleColor,
+                      ),
                       child: Center(
                         child: Text(
                           widget.isLogin ? "Sign In" : "Sign Up",
@@ -220,7 +219,10 @@ class _AuthFormState extends State<AuthForm> {
         if (e.toString().toLowerCase().split(' ').contains('email')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
-                e: e, isEmail: true, isUser: false, isPassword: false);
+                e: e.toString(),
+                isEmail: true,
+                isUser: false,
+                isPassword: false);
           });
         } else if (e
             .toString()
@@ -229,21 +231,36 @@ class _AuthFormState extends State<AuthForm> {
             .contains('wrong-password')) {
           setState(() {
             passwordErrorText = checkLoginAuthError(
-                e: e, isEmail: false, isUser: false, isPassword: true);
+                e: e.toString(),
+                isEmail: false,
+                isUser: false,
+                isPassword: true);
           });
         } else if (e.toString().toLowerCase().split(' ').contains('user')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
-                e: e, isEmail: false, isUser: true, isPassword: false);
+                e: e.toString(),
+                isEmail: false,
+                isUser: true,
+                isPassword: false);
             passwordErrorText = checkLoginAuthError(
-                e: e, isEmail: false, isUser: true, isPassword: false);
+                e: e.toString(),
+                isEmail: false,
+                isUser: true,
+                isPassword: false);
           });
         } else if (e.toString().toLowerCase().split(' ').contains('device')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
-                e: e, isEmail: false, isUser: true, isPassword: false);
+                e: e.toString(),
+                isEmail: false,
+                isUser: true,
+                isPassword: false);
             passwordErrorText = checkLoginAuthError(
-                e: e, isEmail: false, isUser: true, isPassword: false);
+                e: e.toString(),
+                isEmail: false,
+                isUser: true,
+                isPassword: false);
           });
         } else {}
       }

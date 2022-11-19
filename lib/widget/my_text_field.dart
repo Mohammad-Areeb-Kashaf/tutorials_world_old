@@ -37,13 +37,13 @@ class MyTextField extends StatelessWidget {
         decoration: InputDecoration(
           prefixIcon: Icon(
             icon,
-            color: Colors.grey.shade400,
+            color: Colors.black,
           ),
           errorText: errorText,
           border: InputBorder.none,
           hintText: hintText,
           hintStyle: TextStyle(
-            color: Colors.grey[400],
+            color: Colors.black,
           ),
         ),
       ),

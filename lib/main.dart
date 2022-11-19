@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tutorials_wallah/constants.dart';
 import './firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,8 @@ void main() async {
 
 class MyApp extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
+
+  MyApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -29,19 +32,35 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Tutorials Wallah',
         theme: ThemeData(
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+            color: Constants.purpleColor,
+          ),
+          iconTheme: const IconThemeData(
+            color: Constants.purpleColor,
+          ),
           fontFamily: GoogleFonts.montserrat().fontFamily,
-          appBarTheme: const AppBarTheme(
-            titleTextStyle: TextStyle(fontFamily: 'Marhey', fontSize: 20),
-            backgroundColor: Colors.transparent,
-            elevation: 0.0,
-            shape: Border(
-              bottom: BorderSide(color: Colors.black, width: 1),
+          appBarTheme: AppBarTheme(
+            iconTheme: const IconThemeData(
+              color: Constants.purpleColor,
             ),
+            titleTextStyle: TextStyle(
+              color: Constants.purpleColor,
+              fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.kalam().fontFamily,
+              fontSize: 24,
+            ),
+            backgroundColor: Colors.white,
           ),
           bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            selectedLabelStyle: TextStyle(
+              color: Constants.purpleColor,
+            ),
+            unselectedLabelStyle: TextStyle(
+              color: Constants.purpleColor,
+            ),
             backgroundColor: Color(0xff6539b3),
           ),
-          scaffoldBackgroundColor: Colors.transparent,
+          scaffoldBackgroundColor: Colors.white,
           listTileTheme: const ListTileThemeData(
             textColor: Colors.black,
             tileColor: Colors.white,

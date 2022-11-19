@@ -74,14 +74,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return InternetChecker(
-      child: Container(
-        decoration: Constants.kBackground,
-        child: Scaffold(
-          body: _showScreen(),
-          bottomNavigationBar: _bottomNavigationBar(),
-          backgroundColor: Colors.transparent,
-          appBar: _showAppBar(),
-        ),
+      child: Scaffold(
+        body: _showScreen(),
+        bottomNavigationBar: _bottomNavigationBar(),
+        appBar: _showAppBar(),
       ),
     );
   }
@@ -121,9 +117,9 @@ class _HomePageState extends State<HomePage> {
             physics: const BouncingScrollPhysics(),
             itemCount: _playlists.length,
             itemBuilder: (context, index) {
-              print("image !!!!");
               var playlistIndex = _playlists[_playlistIDs[index]];
               var title = playlistIndex![0].title;
+              var desc = playlistIndex![0].description;
               var channelTitle = playlistIndex[0].channelTitle;
               var videoCount = playlistIndex[0].videoCount;
               return PlaylistTutorialsCard(
@@ -138,6 +134,7 @@ class _HomePageState extends State<HomePage> {
                         builder: (context) => PlaylistPage(
                           playlistID: _playlistIDs[index],
                           title: title,
+                          desc: desc,
                           videoCount: videoCount,
                         ),
                       ),
@@ -219,29 +216,36 @@ class _HomePageState extends State<HomePage> {
       showSelectedLabels: true,
       showUnselectedLabels: false,
       unselectedItemColor: Colors.grey.shade500,
+      selectedItemColor: Constants.purpleColor,
       currentIndex: _currentIndex,
-      elevation: 0.0,
       type: BottomNavigationBarType.shifting,
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.play_arrow_solid),
+          icon: Icon(
+            CupertinoIcons.play_arrow,
+          ),
           label: 'Videos',
-          backgroundColor: Colors.transparent,
+          activeIcon: Icon(
+            CupertinoIcons.play_arrow_solid,
+            color: Constants.purpleColor,
+          ),
+          backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
-          icon: Icon(CupertinoIcons.square_list_fill),
+          activeIcon: Icon(CupertinoIcons.square_list_fill),
+          icon: Icon(CupertinoIcons.square_list),
           label: 'Playlists',
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.profile_circled),
           label: 'Account',
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.line_horizontal_3),
           label: 'Menu',
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
         ),
       ],
       onTap: (value) {

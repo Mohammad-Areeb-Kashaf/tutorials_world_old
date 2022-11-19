@@ -13,15 +13,11 @@ class SignInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InternetChecker(
-      child: Container(
-        decoration: Constants.kBackground,
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: AuthForm(
-            emailController: emailController,
-            passwordController: passwordController,
-            isLogin: true,
-          ),
+      child: Scaffold(
+        body: AuthForm(
+          emailController: emailController,
+          passwordController: passwordController,
+          isLogin: true,
         ),
       ),
     );

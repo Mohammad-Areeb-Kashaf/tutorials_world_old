@@ -15,15 +15,11 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: Constants.kBackground,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: AuthForm(
-          emailController: emailController,
-          passwordController: passwordController,
-          isLogin: false,
-        ),
+    return Scaffold(
+      body: AuthForm(
+        emailController: emailController,
+        passwordController: passwordController,
+        isLogin: false,
       ),
     );
   }

@@ -46,9 +46,9 @@ class APIService {
         // Fetch first eight videos from uploads playlist
         List<Playlist> playlists = [];
         playlistJson.forEach(
-          (json) => playlists.add(
-            Playlist.fromMap(json),
-          ),
+          (json) {
+            playlists.add(Playlist.fromMap(json));
+          },
         );
         return playlists;
       } else {
@@ -91,9 +91,10 @@ class APIService {
         // Fetch first eight videos from uploads playlist
 
         videosJson.forEach(
-          (json) => videos.add(
-            Video.fromMap(json['snippet'], nextPageToken),
-          ),
+          (json) {
+            print(json);
+            videos.add(Video.fromMap(json['snippet'], nextPageToken));
+          },
         );
         return videos;
       } else {

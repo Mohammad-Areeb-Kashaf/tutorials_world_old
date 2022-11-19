@@ -14,56 +14,52 @@ class NoInternetPage extends StatefulWidget {
 class _NoInternetPageState extends State<NoInternetPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: Constants.kBackground,
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Stack(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Internet Not Available, Please Check Your Internet Connection and Try Again',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                    ),
+    return Scaffold(
+      body: Stack(
+        children: [
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Internet Not Available, Please Check Your Internet Connection and Try Again',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      NetworkStatusService().checkInternet();
-                    },
-                    child: Container(
-                      height: 40,
-                      width: 70,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          gradient: LinearGradient(colors: [
-                            Colors.deepPurple.shade500,
-                            Colors.deepPurple.shade600,
-                          ])),
-                      child: const Center(
-                        child: Text(
-                          "Retry",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    NetworkStatusService().checkInternet();
+                  },
+                  child: Container(
+                    height: 40,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(colors: [
+                          Colors.deepPurple.shade500,
+                          Colors.deepPurple.shade600,
+                        ])),
+                    child: const Center(
+                      child: Text(
+                        "Retry",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

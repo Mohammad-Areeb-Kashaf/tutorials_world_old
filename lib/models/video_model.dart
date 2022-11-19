@@ -1,6 +1,7 @@
 class Video {
   final String id;
   final String title;
+  final String description;
   final String thumbnailUrl;
   final String channelTitle;
   final String nextPageToken;
@@ -8,6 +9,7 @@ class Video {
   Video({
     required this.id,
     required this.title,
+    required this.description,
     required this.thumbnailUrl,
     required this.channelTitle,
     required this.nextPageToken,
@@ -17,6 +19,7 @@ class Video {
     return Video(
       id: snippet['resourceId']['videoId'],
       title: snippet['title'],
+      description: snippet['description'],
       thumbnailUrl: snippet['thumbnails']['high']['url'],
       channelTitle: snippet['channelTitle'],
       nextPageToken: nextPageToken,
