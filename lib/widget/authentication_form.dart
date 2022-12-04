@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_overlay/loading_overlay.dart';
 import 'package:tutorials_wallah/screens/home_page.dart';
+import 'package:tutorials_wallah/screens/reset_password_page.dart';
 import 'package:tutorials_wallah/services/auth_errors.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/screens/sign_up_page.dart';
@@ -9,9 +11,9 @@ import 'package:tutorials_wallah/widget/my_text_field.dart';
 import 'package:tutorials_wallah/constants.dart';
 
 class AuthForm extends StatefulWidget {
-  var emailController;
-  var passwordController;
-  var isLogin;
+  TextEditingController emailController;
+  TextEditingController passwordController;
+  bool isLogin;
 
   AuthForm({
     Key? key,
@@ -28,105 +30,145 @@ class _AuthFormState extends State<AuthForm> {
   final _auth = FirebaseAuth.instance;
   var emailErrorText;
   var passwordErrorText;
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(top: 200),
-            child: Align(
+      child: LoadingOverlay(
+        isLoading: isLoading,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 50,
+            ),
+            Align(
               alignment: Alignment.topCenter,
               child: Text(
                 widget.isLogin ? "Sign In" : "Sign Up",
-                style: const TextStyle(
-                    color: Constants.purpleColor,
+                style: TextStyle(
+                    color: MediaQuery.of(context).platformBrightness ==
+                            Brightness.dark
+                        ? Colors.white
+                        : Constants.purpleColor,
                     fontSize: 40,
                     fontWeight: FontWeight.bold),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 100),
-            child: SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                              color: Color.fromRGBO(143, 148, 251, .2),
-                              blurRadius: 20.0,
-                              offset: Offset(0, 10))
-                        ]),
-                    child: Column(
-                      children: <Widget>[
-                        MyTextField(
-                          controller: widget.emailController,
-                          errorText: emailErrorText,
-                          hintText: "Enter Email",
-                          icon: Icons.person_outline,
-                          isEmail: true,
-                        ),
-                        MyTextField(
-                          controller: widget.passwordController,
-                          errorText: passwordErrorText,
-                          hintText: "Enter Password",
-                          icon: Icons.lock_outline,
-                          isEmail: false,
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (widget.isLogin) {
-                        authenticateSignIn();
-                      } else {
-                        authenticateSignUp();
-                      }
-                    },
-                    child: Container(
-                      height: 50,
+            Padding(
+              padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 100),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      padding: const EdgeInsets.all(5),
                       decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                            color: MediaQuery.of(context).platformBrightness ==
+                                    Brightness.dark
+                                ? Constants.kDarkBorderColor
+                                : Constants.kLightBorderColor,
+                            width: 3.0),
                         borderRadius: BorderRadius.circular(10),
-                        color: Constants.purpleColor,
+                        boxShadow: MediaQuery.of(context).platformBrightness ==
+                                Brightness.dark
+                            ? null
+                            : [
+                                const BoxShadow(
+                                  color: Color.fromRGBO(118, 32, 230, .3),
+                                  blurRadius: 20.0,
+                                  offset: Offset(0, 10),
+                                ),
+                              ],
                       ),
-                      child: Center(
-                        child: Text(
-                          widget.isLogin ? "Sign In" : "Sign Up",
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                      child: Column(
+                        children: <Widget>[
+                          MyTextField(
+                            controller: widget.emailController,
+                            errorText: emailErrorText,
+                            hintText: "Enter Email",
+                            icon: Icons.person_outline,
+                            isEmail: true,
+                          ),
+                          MyTextField(
+                            controller: widget.passwordController,
+                            errorText: passwordErrorText,
+                            hintText: "Enter Password",
+                            icon: Icons.lock_outline,
+                            isEmail: false,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        if (widget.isLogin) {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          authenticateSignIn();
+                          setState(() {
+                            isLoading = false;
+                          });
+                        } else {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          authenticateSignUp();
+                          setState(() {
+                            isLoading = false;
+                          });
+                        }
+                      },
+                      child: Container(
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: MediaQuery.of(context).platformBrightness ==
+                                  Brightness.dark
+                              ? Theme.of(context)
+                                  .buttonTheme
+                                  .colorScheme!
+                                  .background
+                              : Constants.purpleColor,
+                        ),
+                        child: Center(
+                          child: Text(
+                            widget.isLogin ? "Sign In" : "Sign Up",
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  widget.isLogin
-                      ? const SizedBox(
-                          height: 70,
-                        )
-                      : const SizedBox.shrink(),
-                  widget.isLogin
-                      ? const Text(
-                          "Forgot Password?",
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        )
-                      : const SizedBox.shrink(),
-                  Padding(
-                    padding: widget.isLogin
-                        ? const EdgeInsets.only(top: 150.0)
-                        : const EdgeInsets.only(top: 175.0),
-                    child: GestureDetector(
+                    widget.isLogin
+                        ? const SizedBox(
+                            height: 30,
+                          )
+                        : const SizedBox.shrink(),
+                    widget.isLogin
+                        ? GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(CupertinoPageRoute(
+                                  builder: (context) => ResetPasswordPage()));
+                            },
+                            child: const Text(
+                              "Forgot Password?",
+                              style: TextStyle(fontSize: 16),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    GestureDetector(
                       onTap: () {
                         if (widget.isLogin) {
                           // Go to Sign Up Page
@@ -150,7 +192,6 @@ class _AuthFormState extends State<AuthForm> {
                                   ? 'Don\'t have an Account? '
                                   : 'Already have an Account? ',
                               style: const TextStyle(
-                                color: Colors.white,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w400,
                               ),
@@ -158,21 +199,21 @@ class _AuthFormState extends State<AuthForm> {
                             TextSpan(
                               text: widget.isLogin ? 'Sign Up' : 'Sign In',
                               style: const TextStyle(
-                                color: Colors.white,
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
                               ),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -205,10 +246,14 @@ class _AuthFormState extends State<AuthForm> {
       var password = widget.passwordController.text;
 
       try {
-        print('signing in');
+        setState(() {
+          isLoading = true;
+        });
         await _auth.signInWithEmailAndPassword(
             email: email, password: password);
-
+        setState(() {
+          isLoading = false;
+        });
         Navigator.pushReplacement(
           context,
           CupertinoPageRoute(
@@ -216,7 +261,7 @@ class _AuthFormState extends State<AuthForm> {
           ),
         );
       } catch (e) {
-        if (e.toString().toLowerCase().split(' ').contains('email')) {
+        if (e.toString().contains('email')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
                 e: e.toString(),
@@ -224,11 +269,7 @@ class _AuthFormState extends State<AuthForm> {
                 isUser: false,
                 isPassword: false);
           });
-        } else if (e
-            .toString()
-            .toLowerCase()
-            .split(' ')
-            .contains('wrong-password')) {
+        } else if (e.toString().contains('wrong-password')) {
           setState(() {
             passwordErrorText = checkLoginAuthError(
                 e: e.toString(),
@@ -236,7 +277,7 @@ class _AuthFormState extends State<AuthForm> {
                 isUser: false,
                 isPassword: true);
           });
-        } else if (e.toString().toLowerCase().split(' ').contains('user')) {
+        } else if (e.toString().contains('user')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
                 e: e.toString(),
@@ -249,7 +290,7 @@ class _AuthFormState extends State<AuthForm> {
                 isUser: true,
                 isPassword: false);
           });
-        } else if (e.toString().toLowerCase().split(' ').contains('device')) {
+        } else if (e.toString().contains('device')) {
           setState(() {
             emailErrorText = checkLoginAuthError(
                 e: e.toString(),
@@ -293,23 +334,28 @@ class _AuthFormState extends State<AuthForm> {
     } else if (widget.emailController.text
             .toString()
             .toLowerCase()
-            .split(' ')
             .contains('@') ==
         false) {
       emailErrorText = "Email should contain '@'";
     } else {
-      var email = widget.emailController.text;
-      var password = widget.passwordController.text;
+      var email = widget.emailController.text.trim();
+      var password = widget.passwordController.text.trim();
 
       try {
+        setState(() {
+          isLoading = true;
+        });
         await _auth.createUserWithEmailAndPassword(
           email: email,
           password: password,
         );
+        setState(() {
+          isLoading = false;
+        });
         Navigator.pushReplacement(
           context,
           CupertinoPageRoute(
-            builder: (context) => HomePage(),
+            builder: (BuildContext context) => const HomePage(),
           ),
         );
       } catch (e) {

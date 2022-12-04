@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_overlay/loading_overlay.dart';
@@ -10,6 +9,7 @@ import 'package:tutorials_wallah/screens/tutorial_viewer.dart';
 import 'package:tutorials_wallah/services/api_services.dart';
 import 'package:tutorials_wallah/services/network_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
+import 'package:tutorials_wallah/widget/tutorial_details.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({
@@ -41,7 +41,6 @@ class PlaylistPageState extends State<PlaylistPage> {
       _getVideos();
     } catch (e) {
       videos = [];
-      print(e);
     }
   }
 
@@ -53,7 +52,6 @@ class PlaylistPageState extends State<PlaylistPage> {
       setState(() {
         videos = allVideos;
       });
-      print(videos);
     } catch (e) {
       videos = [];
       NetworkStatusService().checkInternet();
@@ -84,186 +82,81 @@ class PlaylistPageState extends State<PlaylistPage> {
     return Column(
       children: [
         isWithDetail
-            ? Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border:
-                        Border.all(color: Constants.purpleColor, width: 3.0)),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4.0, horizontal: 6.0),
-                      child: Row(
-                        children: [
-                          const Text(
-                            'Title: ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              widget.title,
-                              softWrap: true,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    widget.desc.toString().isNotEmpty
-                        ? Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 4.0, horizontal: 6.0),
-                            child: Row(
-                              children: [
-                                const Text(
-                                  'Description: ',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    widget.desc,
-                                    softWrap: true,
-                                    style: const TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4.0, horizontal: 6.0),
-                      child: Row(
-                        children: [
-                          const Text(
-                            'Video Count: ',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(
-                            widget.videoCount,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 4.0, horizontal: 6.0),
-                      child: Row(
-                        children: [
-                          Row(
-                            children: [
-                              const Text(
-                                'Creator: ',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              Text(
-                                video.channelTitle,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+            ? TutorialDetails(
+                title: video.title,
+                desc: video.description,
+                videoCount: widget.videoCount,
+                creator: video.channelTitle,
               )
             : const SizedBox.shrink(),
-        GestureDetector(
-          onTap: () => {
-            Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => TutorialViewer(
-                  id: video.id,
-                  desc: video.description,
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => TutorialViewer(
+                    id: video.id,
+                    desc: video.description,
+                  ),
                 ),
               ),
-            ),
-          },
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 5.0),
-            padding: const EdgeInsets.all(10.0),
-            height: 160.0,
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 3.0,
-                color: Constants.purpleColor,
-              ),
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
-              color: Colors.white,
-              boxShadow: const [
-                BoxShadow(
-                  color: Colors.black12,
-                  offset: Offset(0, 1),
-                  blurRadius: 6.0,
+            },
+            child: Container(
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                border: Border.all(
+                  width: 4.0,
+                  color: MediaQuery.of(context).platformBrightness ==
+                          Brightness.dark
+                      ? Constants.kDarkBorderColor
+                      : Constants.kLightBorderColor,
                 ),
-              ],
-            ),
-            child: Row(
-              children: <Widget>[
-                SizedBox(
-                  width: 180.0,
-                  child: Container(
-                    decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+              child: Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: 180.0,
+                    child: Container(
+                      decoration: BoxDecoration(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(10)),
                         border: Border.all(
-                            color: Constants.purpleColor, width: 3.0)),
-                    child: ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      child: AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: CachedNetworkImage(
-                          fit: BoxFit.cover,
-                          imageUrl: video.thumbnailUrl,
+                          width: 4.0,
+                          color: MediaQuery.of(context).platformBrightness ==
+                                  Brightness.dark
+                              ? Constants.kDarkBorderColor
+                              : Constants.kLightBorderColor,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(7)),
+                        child: AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: CachedNetworkImage(
+                            fit: BoxFit.cover,
+                            imageUrl: video.thumbnailUrl,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 10.0),
-                Expanded(
-                  child: Text(
-                    video.title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 18.0,
+                  const SizedBox(width: 10.0),
+                  Expanded(
+                    child: Text(
+                      video.title,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -286,8 +179,11 @@ class PlaylistPageState extends State<PlaylistPage> {
                   scrollDirection: Axis.horizontal,
                   child: Text(
                     widget.title,
-                    style: const TextStyle(
-                      color: Constants.purpleColor,
+                    style: TextStyle(
+                      color: MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? Colors.white
+                          : Constants.purpleColor,
                     ),
                   ),
                 )
@@ -313,18 +209,20 @@ class PlaylistPageState extends State<PlaylistPage> {
                         Theme.of(context).progressIndicatorTheme.color),
                   ),
                   isLoading: _isLoading,
-                  child: ListView.builder(
-                    itemCount: videos.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      Video video = videos[index];
-                      if (index == 0) {
-                        return _buildVideo(video, true);
-                      }
-                      return _buildVideo(video, false);
-                    },
-                    physics: _isLoading
-                        ? const NeverScrollableScrollPhysics()
-                        : const BouncingScrollPhysics(),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemCount: videos.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        Video video = videos[index];
+                        if (index == 0) {
+                          return _buildVideo(video, true);
+                        } else {
+                          return _buildVideo(video, false);
+                        }
+                      },
+                      physics: const BouncingScrollPhysics(),
+                    ),
                   ),
                 ),
               )

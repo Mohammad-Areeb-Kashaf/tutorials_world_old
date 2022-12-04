@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/services/network_services.dart';
-import 'package:tutorials_wallah/widget/internet_checker.dart';
+import 'package:tutorials_wallah/constants.dart';
 
 class NoInternetPage extends StatefulWidget {
   const NoInternetPage({super.key});
@@ -21,11 +19,13 @@ class _NoInternetPageState extends State<NoInternetPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  'Internet Not Available, Please Check Your Internet Connection and Try Again',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'Internet Not Available, Please Check Your Internet Connection and Try Again',
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -39,11 +39,15 @@ class _NoInternetPageState extends State<NoInternetPage> {
                     height: 40,
                     width: 70,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(colors: [
-                          Colors.deepPurple.shade500,
-                          Colors.deepPurple.shade600,
-                        ])),
+                      borderRadius: BorderRadius.circular(10),
+                      color: MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? Theme.of(context)
+                              .buttonTheme
+                              .colorScheme!
+                              .background
+                          : Constants.purpleColor,
+                    ),
                     child: const Center(
                       child: Text(
                         "Retry",

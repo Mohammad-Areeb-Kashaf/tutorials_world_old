@@ -16,8 +16,46 @@ class APIService {
   static String nextPageToken = '';
   static String maxResults = '8';
 
+  Future<Video> fetchVideoWithVideoID({required String videoId}) async {
+    Map<String, String> parameters = {
+      'part': 'snippet',
+      'id': videoId,
+      'key': Constants.API_KEY,
+    };
+    Uri uri = Uri.https(
+      _baseUrl,
+      '/youtube/v3/videos',
+      parameters,
+    );
+    Map<String, String> headers = {
+      'Accept': 'application/json',
+    };
+
+    //Get Video
+    try {
+      var response = await http.get(uri, headers: headers);
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        List<dynamic> videoJson = data['items'];
+        var video;
+        videoJson.forEach(
+          (json) {
+            video = Video.fromMap(json, nextPageToken, true);
+          },
+        );
+        return video;
+      } else {
+        throw json.decode(response.body)['error']['message'];
+      }
+    } catch (e) {
+      NetworkStatusService().checkInternet();
+      rethrow;
+    }
+  }
+
   Future<List<Playlist>> fetchPlaylistWithPlaylistID(
       {required String playlistId}) async {
+    List<Playlist> playlists = [];
     Map<String, String> parameters = {
       'part': 'snippet, contentDetails',
       'id': playlistId,
@@ -43,8 +81,6 @@ class APIService {
         nextPageToken = data['nextPageToken'] ?? '';
         List<dynamic> playlistJson = data['items'];
 
-        // Fetch first eight videos from uploads playlist
-        List<Playlist> playlists = [];
         playlistJson.forEach(
           (json) {
             playlists.add(Playlist.fromMap(json));
@@ -56,7 +92,7 @@ class APIService {
       }
     } catch (e) {
       NetworkStatusService().checkInternet();
-      throw e;
+      rethrow;
     }
   }
 
@@ -88,12 +124,9 @@ class APIService {
         nextPageToken = data['nextPageToken'] ?? '';
         List<dynamic> videosJson = data['items'];
 
-        // Fetch first eight videos from uploads playlist
-
         videosJson.forEach(
           (json) {
-            print(json);
-            videos.add(Video.fromMap(json['snippet'], nextPageToken));
+            videos.add(Video.fromMap(json['snippet'], nextPageToken, false));
           },
         );
         return videos;

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:tutorials_wallah/constants.dart';
+import 'package:tutorials_wallah/screens/verify_email_page.dart';
 import './firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:tutorials_wallah/screens/home_page.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/services/network_services.dart';
 
@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
 
   MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -30,7 +31,55 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Tutorials Wallah',
+        themeMode: ThemeMode.system,
+        darkTheme: ThemeData(
+          progressIndicatorTheme: const ProgressIndicatorThemeData(
+            color: Colors.black,
+          ),
+          brightness: Brightness.dark,
+          iconTheme: const IconThemeData(
+            color: Colors.white,
+          ),
+          appBarTheme: AppBarTheme(
+            iconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
+            titleTextStyle: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.kalam().fontFamily,
+              fontSize: 24,
+            ),
+          ),
+          fontFamily: GoogleFonts.montserrat().fontFamily,
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            type: BottomNavigationBarType.fixed,
+            selectedIconTheme: const IconThemeData(
+              color: Colors.white,
+            ),
+            unselectedIconTheme: IconThemeData(color: Colors.grey.shade500),
+            selectedItemColor: Colors.white,
+            selectedLabelStyle: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+            unselectedLabelStyle: const TextStyle(
+              color: Constants.purpleColor,
+            ),
+          ),
+          listTileTheme: const ListTileThemeData(
+            textColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Colors.black,
+                width: 4.0,
+              ),
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+          ),
+        ),
         theme: ThemeData(
           progressIndicatorTheme: const ProgressIndicatorThemeData(
             color: Constants.purpleColor,
@@ -51,25 +100,39 @@ class MyApp extends StatelessWidget {
             ),
             backgroundColor: Colors.white,
           ),
-          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-            selectedLabelStyle: TextStyle(
+          bottomNavigationBarTheme: BottomNavigationBarThemeData(
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: Constants.purpleColor,
+            unselectedItemColor: Colors.grey.shade500,
+            selectedLabelStyle: const TextStyle(
+              color: Constants.purpleColor,
+              fontWeight: FontWeight.bold,
+            ),
+            unselectedLabelStyle: const TextStyle(
               color: Constants.purpleColor,
             ),
-            unselectedLabelStyle: TextStyle(
+            selectedIconTheme: const IconThemeData(
               color: Constants.purpleColor,
             ),
-            backgroundColor: Color(0xff6539b3),
+            unselectedIconTheme: IconThemeData(
+              color: Colors.grey.shade500,
+            ),
           ),
           scaffoldBackgroundColor: Colors.white,
           listTileTheme: const ListTileThemeData(
             textColor: Colors.black,
             tileColor: Colors.white,
             shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Constants.purpleColor,
+                width: 4.0,
+              ),
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
           ),
         ),
-        home: _auth.currentUser != null ? HomePage() : SignInPage(),
+        home:
+            _auth.currentUser != null ? const VerifyEmailPage() : SignInPage(),
       ),
     );
   }

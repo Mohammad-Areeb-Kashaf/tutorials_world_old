@@ -2,12 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:tutorials_wallah/constants.dart';
 
-class PlaylistTutorialsCard extends StatelessWidget {
-  const PlaylistTutorialsCard({
+class TutorialsCard extends StatelessWidget {
+  const TutorialsCard({
     super.key,
     required this.playlistThumbnailUrl,
     required this.onTap,
-    required this.videoCount,
+    this.videoCount = '',
     required this.channelTitle,
     required this.playlistTitle,
   });
@@ -24,11 +24,14 @@ class PlaylistTutorialsCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white54,
+            color: ThemeData.dark().appBarTheme.backgroundColor,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             border: Border.all(
-              width: 3.0,
-              color: Constants.purpleColor,
+              width: 4.0,
+              color:
+                  MediaQuery.of(context).platformBrightness == Brightness.dark
+                      ? Constants.kDarkBorderColor
+                      : Constants.kLightBorderColor,
             ),
           ),
           child: Column(
@@ -37,13 +40,17 @@ class PlaylistTutorialsCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(
-                        width: 3.0,
-                        color: Constants.purpleColor,
-                      )),
-                  child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    border: Border.all(
+                      width: 4.0,
+                      color: MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? Constants.kDarkBorderColor
+                          : Constants.kLightBorderColor,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(7)),
                     child: AspectRatio(
                       aspectRatio: 16 / 9,
                       child: CachedNetworkImage(
@@ -57,14 +64,14 @@ class PlaylistTutorialsCard extends StatelessWidget {
               ),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                 child: Row(
                   children: [
                     const Text(
                       'Title: ',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Expanded(
@@ -73,57 +80,52 @@ class PlaylistTutorialsCard extends StatelessWidget {
                         softWrap: true,
                         style: const TextStyle(
                           fontSize: 18,
-                          color: Colors.black,
                         ),
                       ),
                     ),
                   ],
                 ),
               ),
+              videoCount.isNotEmpty
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4.0, horizontal: 12.0),
+                      child: Row(
+                        children: [
+                          const Text(
+                            'Video Count: ',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            videoCount,
+                            style: const TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : const SizedBox.shrink(),
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
+                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 12.0),
                 child: Row(
                   children: [
                     const Text(
-                      'Video Count: ',
+                      'Creator: ',
                       style: TextStyle(
                         fontSize: 18,
-                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      videoCount,
+                      channelTitle,
                       style: const TextStyle(
                         fontSize: 18,
-                        color: Colors.black,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 4.0, horizontal: 6.0),
-                child: Row(
-                  children: [
-                    Row(
-                      children: [
-                        const Text(
-                          'Creator: ',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        Text(
-                          channelTitle,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),

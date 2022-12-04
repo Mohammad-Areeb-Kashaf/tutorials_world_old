@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-void showSnackBar(BuildContext context, String text) {
+void showSnackBar(BuildContext context, String text, {duration = 4}) {
   final snackBar = SnackBar(
+    duration: Duration(seconds: duration),
     content: Text(
       text,
       style: const TextStyle(
         fontSize: 20,
-        color: Colors.white,
       ),
     ),
     behavior: SnackBarBehavior.floating,

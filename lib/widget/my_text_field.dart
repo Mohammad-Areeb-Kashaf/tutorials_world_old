@@ -9,6 +9,8 @@ class MyTextField extends StatelessWidget {
   final IconData icon;
   bool isEmail;
   var errorText;
+  bool isTutorial;
+  bool isFirstTutorial;
   MyTextField({
     super.key,
     required this.controller,
@@ -16,33 +18,53 @@ class MyTextField extends StatelessWidget {
     required this.hintText,
     required this.icon,
     required this.isEmail,
+    this.isFirstTutorial = false,
+    this.isTutorial = false,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
-      decoration: isEmail
-          ? BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.grey.shade100)))
-          : null,
+      decoration: isTutorial
+          ? isFirstTutorial
+              ? BoxDecoration(
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade100)))
+              : null
+          : isEmail
+              ? BoxDecoration(
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey.shade100)))
+              : null,
       child: TextField(
-        obscureText: isEmail == false ? true : false,
+        obscureText: isTutorial
+            ? false
+            : isEmail
+                ? false
+                : true,
         cursorColor: Colors.black,
-        keyboardType: isEmail
-            ? TextInputType.emailAddress
-            : TextInputType.visiblePassword,
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+        keyboardType: isTutorial
+            ? null
+            : isEmail
+                ? TextInputType.emailAddress
+                : TextInputType.visiblePassword,
         controller: controller,
         selectionControls: CupertinoTextSelectionControls(),
         decoration: InputDecoration(
-          prefixIcon: Icon(
-            icon,
-            color: Colors.black,
-          ),
+          prefixIcon: isTutorial
+              ? null
+              : Icon(
+                  icon,
+                  color: Colors.black,
+                ),
           errorText: errorText,
           border: InputBorder.none,
           hintText: hintText,
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             color: Colors.black,
           ),
         ),

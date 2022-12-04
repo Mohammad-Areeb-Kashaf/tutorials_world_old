@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
 import 'package:tutorials_wallah/widget/my_youtube_player.dart';
+import 'package:tutorials_wallah/widget/tutorial_details.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TutorialViewer extends StatefulWidget {
   final String id;
@@ -71,107 +69,12 @@ class _TutorialViewerState extends State<TutorialViewer> {
             children: [
               player,
               Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    border: Border.all(
-                      width: 3.0,
-                      color: Constants.purpleColor,
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 6.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Title: ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Expanded(
-                              child: Text(
-                                title,
-                                softWrap: true,
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 6.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Description: ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Expanded(
-                              child: Linkify(
-                                onOpen: (link) async {
-                                  if (await canLaunchUrl(
-                                      Uri.parse(link.url.toString()))) {
-                                    print(link.url);
-                                    await launchUrl(
-                                        Uri.parse(link.url.toString()));
-                                  } else {
-                                    print('Could not launch $link');
-                                  }
-                                },
-                                softWrap: true,
-                                text: desc,
-                                options: const LinkifyOptions(
-                                  humanize: false,
-                                ),
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 4.0, horizontal: 6.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Creator: ',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                            Text(
-                              creator,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                padding: const EdgeInsets.all(8.0),
+                child: TutorialDetails(
+                  title: title,
+                  desc: desc,
+                  videoCount: "",
+                  creator: creator,
                 ),
               ),
             ],

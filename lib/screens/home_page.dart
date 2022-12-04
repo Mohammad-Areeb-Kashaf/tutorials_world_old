@@ -1,19 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/models/playlist_model.dart';
+import 'package:tutorials_wallah/models/video_model.dart';
 import 'package:tutorials_wallah/screens/playlist_page.dart';
+import 'package:tutorials_wallah/screens/request_tutorial.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
+import 'package:tutorials_wallah/screens/tutorial_viewer.dart';
 import 'package:tutorials_wallah/services/api_services.dart';
 import 'package:tutorials_wallah/services/network_services.dart';
 import 'package:tutorials_wallah/widget/internet_checker.dart';
-import 'package:tutorials_wallah/widget/my_snackbar.dart';
-import 'package:tutorials_wallah/widget/playlist_tutorials_card.dart';
-import 'package:cupertino_icons/cupertino_icons.dart';
+import 'package:tutorials_wallah/widget/my_snack-bar.dart';
+import 'package:tutorials_wallah/widget/tutorials_card.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -23,7 +24,9 @@ class _HomePageState extends State<HomePage> {
   final _auth = FirebaseAuth.instance;
   var _currentIndex = 0;
   List _playlistIDs = [];
+  List _videosIDs = [];
   Map<String, List<Playlist>> _playlists = {};
+  final Map<String, Video> _videos = {};
 
   @override
   void initState() {
@@ -31,7 +34,7 @@ class _HomePageState extends State<HomePage> {
     try {
       getPlaylists();
     } catch (e) {
-      print(e);
+      throw e.toString();
     }
   }
 
@@ -46,12 +49,25 @@ class _HomePageState extends State<HomePage> {
       "PLzOt3noWLMtiX8unvZ_IryZDbD7qZ3nix",
       "PLzOt3noWLMtjI12lI5KA9pVGCtqmTBjj5",
     ];
+    _videosIDs = [
+      'ER9SspLe4Hg',
+      'Q4p8vRQX8uY',
+    ];
     _playlists = {};
     _playlistIDs.shuffle();
     try {
+      Map<String, Video> videos = {};
+
+      for (int index = 0; index < _videosIDs.length; index++) {
+        videos = {
+          _videosIDs[index].toString(): await APIService.instance
+              .fetchVideoWithVideoID(videoId: _videosIDs[index])
+        };
+        _videos.addEntries(videos.entries);
+        setState(() {});
+      }
       Map<String, List<Playlist>> playlists = {};
       for (int index = 0; index < _playlistIDs.length; index++) {
-        print(index);
         playlists = {
           _playlistIDs[index].toString(): await APIService.instance
               .fetchPlaylistWithPlaylistID(playlistId: _playlistIDs[index])
@@ -87,11 +103,23 @@ class _HomePageState extends State<HomePage> {
       return AppBar(
         centerTitle: true,
         title: const Text('Tutorials Wallah'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(CupertinoIcons.search),
+          ),
+        ],
       );
     } else if (_currentIndex == 1) {
       return AppBar(
         centerTitle: true,
         title: const Text('Tutorials Wallah'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(CupertinoIcons.search),
+          ),
+        ],
       );
     } else if (_currentIndex == 2) {
       return AppBar(
@@ -111,6 +139,40 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Widget _videosPage() {
+    return _videos.isNotEmpty
+        ? ListView.builder(
+            physics: const BouncingScrollPhysics(),
+            itemCount: _videos.length,
+            itemBuilder: (context, index) {
+              var videoIndex = _videos[_videosIDs[index].toString()];
+              var title = videoIndex!.title;
+              var desc = videoIndex.description;
+              var channelTitle = videoIndex.channelTitle;
+              return TutorialsCard(
+                playlistThumbnailUrl: videoIndex.thumbnailUrl,
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => TutorialViewer(
+                              id: _videosIDs[index], desc: desc)));
+                },
+                channelTitle: channelTitle,
+                playlistTitle: title,
+              );
+            },
+          )
+        : const Center(
+            child: CircularProgressIndicator(
+              strokeWidth: 5.0,
+              valueColor: AlwaysStoppedAnimation<Color>(
+                Colors.white,
+              ),
+            ),
+          );
+  }
+
   Widget _playlistsPage() {
     return _playlists.isNotEmpty
         ? ListView.builder(
@@ -119,10 +181,10 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context, index) {
               var playlistIndex = _playlists[_playlistIDs[index]];
               var title = playlistIndex![0].title;
-              var desc = playlistIndex![0].description;
+              var desc = playlistIndex[0].description;
               var channelTitle = playlistIndex[0].channelTitle;
               var videoCount = playlistIndex[0].videoCount;
-              return PlaylistTutorialsCard(
+              return TutorialsCard(
                   playlistTitle: title,
                   channelTitle: channelTitle,
                   videoCount: videoCount,
@@ -140,8 +202,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     );
                   },
-                  playlistThumbnailUrl:
-                      _playlists[_playlistIDs[index]]![0].thumbnailUrl);
+                  playlistThumbnailUrl: playlistIndex[0].thumbnailUrl);
             },
           )
         : const Center(
@@ -184,10 +245,16 @@ class _HomePageState extends State<HomePage> {
       padding: const EdgeInsets.all(8.0),
       child: ListView(
         physics: const BouncingScrollPhysics(),
-        children: const [
+        children: [
           ListTile(
-            title: Text(
-              'Request a tutorial',
+            onTap: () {
+              Navigator.push(
+                  context,
+                  CupertinoPageRoute(
+                      builder: (context) => const RequestTutorial()));
+            },
+            title: const Text(
+              'Request Tutorial',
               style: TextStyle(
                 fontSize: 18,
               ),
@@ -200,7 +267,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _showScreen() {
     if (_currentIndex == 0) {
-      return const Text('');
+      return _videosPage();
     } else if (_currentIndex == 1) {
       return _playlistsPage();
     } else if (_currentIndex == 2) {
@@ -215,10 +282,7 @@ class _HomePageState extends State<HomePage> {
       selectedFontSize: 16.0,
       showSelectedLabels: true,
       showUnselectedLabels: false,
-      unselectedItemColor: Colors.grey.shade500,
-      selectedItemColor: Constants.purpleColor,
       currentIndex: _currentIndex,
-      type: BottomNavigationBarType.shifting,
       items: const [
         BottomNavigationBarItem(
           icon: Icon(
@@ -227,31 +291,27 @@ class _HomePageState extends State<HomePage> {
           label: 'Videos',
           activeIcon: Icon(
             CupertinoIcons.play_arrow_solid,
-            color: Constants.purpleColor,
           ),
-          backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
           activeIcon: Icon(CupertinoIcons.square_list_fill),
           icon: Icon(CupertinoIcons.square_list),
           label: 'Playlists',
-          backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.profile_circled),
           label: 'Account',
-          backgroundColor: Colors.white,
         ),
         BottomNavigationBarItem(
           icon: Icon(CupertinoIcons.line_horizontal_3),
           label: 'Menu',
-          backgroundColor: Colors.white,
         ),
       ],
       onTap: (value) {
         setState(() {
           _currentIndex = value;
         });
+        setState(() {});
       },
     );
   }
