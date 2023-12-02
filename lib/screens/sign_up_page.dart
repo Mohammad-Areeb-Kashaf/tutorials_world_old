@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/widget/authentication_form.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUpPage({super.key});
+  const SignUpPage({super.key});
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();

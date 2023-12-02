@@ -2,25 +2,29 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
+
+import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/screens/home_page.dart';
 import 'package:tutorials_wallah/screens/reset_password_page.dart';
-import 'package:tutorials_wallah/services/auth_errors.dart';
 import 'package:tutorials_wallah/screens/sign_in_page.dart';
 import 'package:tutorials_wallah/screens/sign_up_page.dart';
+import 'package:tutorials_wallah/services/auth_errors.dart';
 import 'package:tutorials_wallah/widget/my_text_field.dart';
-import 'package:tutorials_wallah/constants.dart';
 
 class AuthForm extends StatefulWidget {
-  TextEditingController emailController;
-  TextEditingController passwordController;
-  bool isLogin;
-
-  AuthForm({
-    Key? key,
+  final TextEditingController emailController;
+  final TextEditingController passwordController;
+  final bool isLogin;
+  
+  const AuthForm({
+    super.key,
     required this.emailController,
     required this.passwordController,
     required this.isLogin,
-  }) : super(key: key);
+  });
+  
+
+  
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -28,8 +32,8 @@ class AuthForm extends StatefulWidget {
 
 class _AuthFormState extends State<AuthForm> {
   final _auth = FirebaseAuth.instance;
-  var emailErrorText;
-  var passwordErrorText;
+  String? emailErrorText;
+  String? passwordErrorText;
   bool isLoading = false;
 
   @override

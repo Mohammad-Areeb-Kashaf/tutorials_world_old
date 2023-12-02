@@ -12,8 +12,7 @@ class NetworkStatusService {
     Connectivity().onConnectivityChanged.listen((status) async {
       networkStatusController.add(await _getNetworkStatus(status));
     });
-    var timer =
-        Timer.periodic(Duration(seconds: 8), (timer) => checkInternet());
+    Timer.periodic(const Duration(seconds: 8), (timer) => checkInternet());
   }
   checkInternet() async {
     var connection = await InternetConnectionChecker().hasConnection;
@@ -30,4 +29,6 @@ class NetworkStatusService {
       return NetworkStatus.Offline;
     }
   }
+
+  
 }

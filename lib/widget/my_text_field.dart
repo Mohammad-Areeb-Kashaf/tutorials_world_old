@@ -7,11 +7,11 @@ class MyTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final IconData icon;
-  bool isEmail;
-  var errorText;
-  bool isTutorial;
-  bool isFirstTutorial;
-  MyTextField({
+  final bool isEmail;
+  final String? errorText;
+  final bool isTutorial;
+  final bool isFirstTutorial;
+  const MyTextField({
     super.key,
     required this.controller,
     required this.errorText,

@@ -5,8 +5,8 @@ import 'package:tutorials_wallah/constants.dart';
 import 'package:tutorials_wallah/widget/my_text_field.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  TextEditingController emailController = TextEditingController();
-  ResetPasswordPage({Key? key}) : super(key: key);
+  ResetPasswordPage({super.key});
+  final TextEditingController emailController = TextEditingController();
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
