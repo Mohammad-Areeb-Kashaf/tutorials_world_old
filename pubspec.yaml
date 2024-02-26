@@ -27,27 +27,22 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cached_network_image: ^3.3.1
+  cloud_firestore: ^4.15.5
+  connectivity_plus: ^5.0.2
+  cupertino_icons: ^1.0.6
+  firebase_auth: ^4.17.4
+  firebase_core: ^2.25.4
   flutter:
     sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  cached_network_image: ^3.2.2
-  cloud_firestore: ^4.1.0
-  connectivity_plus: ^5.0.2
-  firebase_auth: ^4.1.4
-  firebase_core: ^2.3.0
   flutter_linkify: ^6.0.0
   google_fonts: ^6.1.0
-  http: ^1.1.2
-  internet_connection_checker: ^1.0.0
+  http: ^1.2.0
+  internet_connection_checker: ^1.0.0+1
   loading_overlay: ^0.3.0
-  provider: ^6.0.4
-  youtube_player_flutter: ^8.1.1
-
-  flutter_web_auth_2: ^3.0.4
+  provider: ^6.1.1
+  url_launcher: ^6.2.5
+  youtube_player_flutter: ^9.0.0
 
 dev_dependencies:
   flutter_test:
