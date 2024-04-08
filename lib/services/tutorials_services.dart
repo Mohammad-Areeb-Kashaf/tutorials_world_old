@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:tutorials_wallah/models/video_model.dart';
-import 'package:tutorials_wallah/services/api_services.dart';
-import 'package:tutorials_wallah/services/network_services.dart';
-import 'package:tutorials_wallah/widget/my_snack-bar.dart';
+import 'package:tutorials_world/models/video_model.dart';
+import 'package:tutorials_world/services/api_services.dart';
+import 'package:tutorials_world/services/network_services.dart';
+import 'package:tutorials_world/widget/my_snack-bar.dart';
 
 class TutorialsServices {
   final _firestore = FirebaseFirestore.instance;

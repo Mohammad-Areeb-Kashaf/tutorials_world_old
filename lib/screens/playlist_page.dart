@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loading_overlay/loading_overlay.dart';
-import 'package:tutorials_wallah/constants.dart';
-import 'package:tutorials_wallah/models/video_model.dart';
-import 'package:tutorials_wallah/screens/tutorial_viewer.dart';
-import 'package:tutorials_wallah/services/api_services.dart';
-import 'package:tutorials_wallah/services/network_services.dart';
-import 'package:tutorials_wallah/widget/internet_checker.dart';
-import 'package:tutorials_wallah/widget/tutorial_details.dart';
+import 'package:tutorials_world/constants.dart';
+import 'package:tutorials_world/models/video_model.dart';
+import 'package:tutorials_world/screens/tutorial_viewer.dart';
+import 'package:tutorials_world/services/api_services.dart';
+import 'package:tutorials_world/services/network_services.dart';
+import 'package:tutorials_world/widget/internet_checker.dart';
+import 'package:tutorials_world/widget/tutorial_details.dart';
 
 class PlaylistPage extends StatefulWidget {
   const PlaylistPage({

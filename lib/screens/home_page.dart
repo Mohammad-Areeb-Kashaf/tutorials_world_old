@@ -1,17 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:tutorials_wallah/models/playlist_model.dart';
-import 'package:tutorials_wallah/models/video_model.dart';
-import 'package:tutorials_wallah/screens/playlist_page.dart';
-import 'package:tutorials_wallah/screens/request_tutorial.dart';
-import 'package:tutorials_wallah/screens/sign_in_page.dart';
-import 'package:tutorials_wallah/screens/tutorial_viewer.dart';
-import 'package:tutorials_wallah/services/api_services.dart';
-import 'package:tutorials_wallah/services/network_services.dart';
-import 'package:tutorials_wallah/widget/internet_checker.dart';
-import 'package:tutorials_wallah/widget/my_snack-bar.dart';
-import 'package:tutorials_wallah/widget/tutorials_card.dart';
+import 'package:tutorials_world/models/playlist_model.dart';
+import 'package:tutorials_world/models/video_model.dart';
+import 'package:tutorials_world/screens/playlist_page.dart';
+import 'package:tutorials_world/screens/request_tutorial.dart';
+import 'package:tutorials_world/screens/sign_in_page.dart';
+import 'package:tutorials_world/screens/tutorial_viewer.dart';
+import 'package:tutorials_world/services/api_services.dart';
+import 'package:tutorials_world/services/network_services.dart';
+import 'package:tutorials_world/widget/internet_checker.dart';
+import 'package:tutorials_world/widget/my_snack-bar.dart';
+import 'package:tutorials_world/widget/tutorials_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

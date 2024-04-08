@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutorials_wallah/constants.dart';
-import 'package:tutorials_wallah/screens/home_page.dart';
-import 'package:tutorials_wallah/widget/my_snack-bar.dart';
+import 'package:tutorials_world/constants.dart';
+import 'package:tutorials_world/screens/home_page.dart';
+import 'package:tutorials_world/widget/my_snack-bar.dart';
 
 class VerifyEmailPage extends StatefulWidget {
-  const VerifyEmailPage({Key? key}) : super(key: key);
+  const VerifyEmailPage({super.key});
 
   @override
   State<VerifyEmailPage> createState() => _VerifyEmailPageState();

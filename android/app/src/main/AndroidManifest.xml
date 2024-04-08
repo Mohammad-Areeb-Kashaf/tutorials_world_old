@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.akdeveloper.tutorials_wallah">
+    package="com.akdeveloperz.tutorials_world">
     <uses-permission android:name="android.permission.INTERNET"/>
     <queries>
         <!-- If your app checks for SMS support -->

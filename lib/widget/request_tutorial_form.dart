@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials_wallah/constants.dart';
-import 'package:tutorials_wallah/services/tutorials_services.dart';
+import 'package:tutorials_world/constants.dart';
+import 'package:tutorials_world/services/tutorials_services.dart';
 
 import 'my_text_field.dart';
 

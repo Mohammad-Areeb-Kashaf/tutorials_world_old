@@ -3,28 +3,25 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
-import 'package:tutorials_wallah/constants.dart';
-import 'package:tutorials_wallah/screens/home_page.dart';
-import 'package:tutorials_wallah/screens/reset_password_page.dart';
-import 'package:tutorials_wallah/screens/sign_in_page.dart';
-import 'package:tutorials_wallah/screens/sign_up_page.dart';
-import 'package:tutorials_wallah/services/auth_errors.dart';
-import 'package:tutorials_wallah/widget/my_text_field.dart';
+import 'package:tutorials_world/constants.dart';
+import 'package:tutorials_world/screens/home_page.dart';
+import 'package:tutorials_world/screens/reset_password_page.dart';
+import 'package:tutorials_world/screens/sign_in_page.dart';
+import 'package:tutorials_world/screens/sign_up_page.dart';
+import 'package:tutorials_world/services/auth_errors.dart';
+import 'package:tutorials_world/widget/my_text_field.dart';
 
 class AuthForm extends StatefulWidget {
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final bool isLogin;
-  
+
   const AuthForm({
     super.key,
     required this.emailController,
     required this.passwordController,
     required this.isLogin,
   });
-  
-
-  
 
   @override
   State<AuthForm> createState() => _AuthFormState();
@@ -179,7 +176,7 @@ class _AuthFormState extends State<AuthForm> {
                           Navigator.pushReplacement(
                               context,
                               CupertinoPageRoute(
-                                  builder: (context) => SignUpPage()));
+                                  builder: (context) => const SignUpPage()));
                         } else {
                           // Go to Sign In Page
                           Navigator.pushReplacement(
@@ -261,7 +258,7 @@ class _AuthFormState extends State<AuthForm> {
         Navigator.pushReplacement(
           context,
           CupertinoPageRoute(
-            builder: (context) => HomePage(),
+            builder: (context) => const HomePage(),
           ),
         );
       } catch (e) {

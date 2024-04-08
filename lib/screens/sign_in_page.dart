@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials_wallah/widget/authentication_form.dart';
-import 'package:tutorials_wallah/widget/internet_checker.dart';
+import 'package:tutorials_world/widget/authentication_form.dart';
+import 'package:tutorials_world/widget/internet_checker.dart';
 
 class SignInPage extends StatelessWidget {
   SignInPage({super.key});

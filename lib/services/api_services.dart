@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:tutorials_wallah/models/playlist_model.dart';
-import 'package:tutorials_wallah/models/video_model.dart';
-import 'package:tutorials_wallah/constants.dart';
-import 'package:tutorials_wallah/services/network_services.dart';
+import 'package:tutorials_world/models/playlist_model.dart';
+import 'package:tutorials_world/models/video_model.dart';
+import 'package:tutorials_world/constants.dart';
+import 'package:tutorials_world/services/network_services.dart';
 
 import '../screens/playlist_page.dart';
 
@@ -37,12 +37,10 @@ class APIService {
       if (response.statusCode == 200) {
         var data = json.decode(response.body);
         List<dynamic> videoJson = data['items'];
-        var video;
-        videoJson.forEach(
-          (json) {
-            video = Video.fromMap(json, nextPageToken, true);
-          },
-        );
+        late Video video;
+        for (var json in videoJson) {
+          video = Video.fromMap(json, nextPageToken, true);
+        }
         return video;
       } else {
         throw json.decode(response.body)['error']['message'];
@@ -81,11 +79,9 @@ class APIService {
         nextPageToken = data['nextPageToken'] ?? '';
         List<dynamic> playlistJson = data['items'];
 
-        playlistJson.forEach(
-          (json) {
-            playlists.add(Playlist.fromMap(json));
-          },
-        );
+        for (var json in playlistJson) {
+          playlists.add(Playlist.fromMap(json));
+        }
         return playlists;
       } else {
         throw json.decode(response.body)['error']['message'];
@@ -124,18 +120,16 @@ class APIService {
         nextPageToken = data['nextPageToken'] ?? '';
         List<dynamic> videosJson = data['items'];
 
-        videosJson.forEach(
-          (json) {
-            videos.add(Video.fromMap(json['snippet'], nextPageToken, false));
-          },
-        );
+        for (var json in videosJson) {
+          videos.add(Video.fromMap(json['snippet'], nextPageToken, false));
+        }
         return videos;
       } else {
         throw json.decode(response.body)['error']['message'];
       }
     } catch (e) {
       NetworkStatusService().checkInternet();
-      throw e;
+      rethrow;
     }
   }
 }

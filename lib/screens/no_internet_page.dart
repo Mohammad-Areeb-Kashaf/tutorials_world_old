@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials_wallah/services/network_services.dart';
-import 'package:tutorials_wallah/constants.dart';
+import 'package:tutorials_world/services/network_services.dart';
+import 'package:tutorials_world/constants.dart';
 
 class NoInternetPage extends StatefulWidget {
   const NoInternetPage({super.key});

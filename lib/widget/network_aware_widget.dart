@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:tutorials_wallah/services/network_services.dart';
+import 'package:tutorials_world/services/network_services.dart';
 
 class NetworkAwareWidget extends StatelessWidget {
   final Widget onlineChild;
   final Widget offlineChild;
 
   const NetworkAwareWidget(
-      {Key? key, required this.onlineChild, required this.offlineChild})
-      : super(key: key);
+      {super.key, required this.onlineChild, required this.offlineChild});
 
   @override
   Widget build(BuildContext context) {

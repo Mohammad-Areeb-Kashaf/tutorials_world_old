@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:tutorials_wallah/widget/internet_checker.dart';
-import 'package:tutorials_wallah/widget/my_youtube_player.dart';
-import 'package:tutorials_wallah/widget/tutorial_details.dart';
+import 'package:tutorials_world/widget/internet_checker.dart';
+import 'package:tutorials_world/widget/my_youtube_player.dart';
+import 'package:tutorials_world/widget/tutorial_details.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TutorialViewer extends StatefulWidget {

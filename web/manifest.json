@@ -1,6 +1,6 @@
 {
-    "name": "tutorials_wallah",
-    "short_name": "tutorials_wallah",
+    "name": "tutorials_world",
+    "short_name": "tutorials_world",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

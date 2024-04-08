@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
-import 'package:tutorials_wallah/constants.dart';
+import 'package:tutorials_world/constants.dart';
 
 class TutorialDetails extends StatelessWidget {
   final title;
@@ -10,12 +10,12 @@ class TutorialDetails extends StatelessWidget {
   final creator;
 
   const TutorialDetails({
-    Key? key,
+    super.key,
     required this.title,
     required this.desc,
     required this.videoCount,
     required this.creator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

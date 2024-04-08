@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tutorials_wallah/screens/no_internet_page.dart';
-import 'package:tutorials_wallah/widget/network_aware_widget.dart';
+import 'package:tutorials_world/screens/no_internet_page.dart';
+import 'package:tutorials_world/widget/network_aware_widget.dart';
 
 class InternetChecker extends StatelessWidget {
   final Widget child;
