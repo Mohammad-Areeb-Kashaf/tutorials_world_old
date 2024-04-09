@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Tutorials Wallah',
+        title: 'Tutorials World',
         themeMode: ThemeMode.system,
         darkTheme: ThemeData(
           progressIndicatorTheme: const ProgressIndicatorThemeData(

@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:loading_overlay/loading_overlay.dart';
 
 import 'package:tutorials_world/constants.dart';
@@ -105,8 +106,15 @@ class _AuthFormState extends State<AuthForm> {
                     const SizedBox(
                       height: 30,
                     ),
-                    GestureDetector(
-                      onTap: () {
+                    MaterialButton(
+                      height: 50,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      color: MediaQuery.of(context).platformBrightness ==
+                              Brightness.dark
+                          ? Constants.kDarkBorderColor
+                          : Constants.purpleColor,
+                      onPressed: () {
                         if (widget.isLogin) {
                           setState(() {
                             isLoading = true;
@@ -125,26 +133,13 @@ class _AuthFormState extends State<AuthForm> {
                           });
                         }
                       },
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: MediaQuery.of(context).platformBrightness ==
-                                  Brightness.dark
-                              ? Theme.of(context)
-                                  .buttonTheme
-                                  .colorScheme!
-                                  .background
-                              : Constants.purpleColor,
-                        ),
-                        child: Center(
-                          child: Text(
-                            widget.isLogin ? "Sign In" : "Sign Up",
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18,
-                            ),
+                      child: Center(
+                        child: Text(
+                          widget.isLogin ? "Sign In" : "Sign Up",
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
                           ),
                         ),
                       ),
@@ -255,12 +250,14 @@ class _AuthFormState extends State<AuthForm> {
         setState(() {
           isLoading = false;
         });
-        Navigator.pushReplacement(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => const HomePage(),
-          ),
-        );
+        context.mounted
+            ? Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              )
+            : null;
       } catch (e) {
         if (e.toString().contains('email')) {
           setState(() {
@@ -353,12 +350,14 @@ class _AuthFormState extends State<AuthForm> {
         setState(() {
           isLoading = false;
         });
-        Navigator.pushReplacement(
-          context,
-          CupertinoPageRoute(
-            builder: (BuildContext context) => const HomePage(),
-          ),
-        );
+        context.mounted
+            ? Navigator.pushReplacement(
+                context,
+                CupertinoPageRoute(
+                  builder: (BuildContext context) => const HomePage(),
+                ),
+              )
+            : null;
       } catch (e) {
         if (e.toString().toLowerCase().split(' ').contains('email')) {
           setState(() {

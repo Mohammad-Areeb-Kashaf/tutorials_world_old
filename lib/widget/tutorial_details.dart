@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:tutorials_world/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TutorialDetails extends StatelessWidget {
   final title;

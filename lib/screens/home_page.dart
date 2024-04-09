@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
     if (_currentIndex == 0) {
       return AppBar(
         centerTitle: true,
-        title: const Text('Tutorials Wallah'),
+        title: const Text('Tutorials World'),
         actions: [
           IconButton(
             onPressed: () {},
@@ -113,7 +113,7 @@ class _HomePageState extends State<HomePage> {
     } else if (_currentIndex == 1) {
       return AppBar(
         centerTitle: true,
-        title: const Text('Tutorials Wallah'),
+        title: const Text('Tutorials World'),
         actions: [
           IconButton(
             onPressed: () {},
@@ -124,17 +124,17 @@ class _HomePageState extends State<HomePage> {
     } else if (_currentIndex == 2) {
       return AppBar(
         centerTitle: true,
-        title: const Text('Tutorials Wallah'),
+        title: const Text('Tutorials World'),
       );
     } else if (_currentIndex == 3) {
       return AppBar(
         centerTitle: true,
-        title: const Text('Tutorials Wallah'),
+        title: const Text('Tutorials World'),
       );
     } else {
       return AppBar(
         centerTitle: true,
-        title: const Text('Tutorials Wallah'),
+        title: const Text('Tutorials World'),
       );
     }
   }
