@@ -32,7 +32,7 @@ migrate_working_dir/
 /build/
 /lib/firebase_options.dart
 /lib/api_key.dart
-/android/app/google_services.json
+/android/app/google-services.json
 /ios/Runner/GoogleService-Info.plist
 /macos/Runner/GoogleService-Info.plist
 
