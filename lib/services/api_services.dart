@@ -4,6 +4,7 @@ import 'package:tutorials_world/models/playlist_model.dart';
 import 'package:tutorials_world/models/video_model.dart';
 import 'package:tutorials_world/constants.dart';
 import 'package:tutorials_world/services/network_services.dart';
+import 'package:tutorials_world/api_key.dart';
 
 import '../screens/playlist_page.dart';
 
@@ -15,12 +16,13 @@ class APIService {
   final String _baseUrl = 'www.googleapis.com';
   static String nextPageToken = '';
   static String maxResults = '8';
+  final String apiKey = API_KEY;
 
   Future<Video> fetchVideoWithVideoID({required String videoId}) async {
     Map<String, String> parameters = {
       'part': 'snippet',
       'id': videoId,
-      'key': Constants.API_KEY,
+      'key': apiKey,
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -59,7 +61,7 @@ class APIService {
       'id': playlistId,
       'maxResults': maxResults,
       'pageToken': nextPageToken,
-      'key': Constants.API_KEY,
+      'key': apiKey,
     };
     Uri uri = Uri.https(
       _baseUrl,
@@ -100,7 +102,7 @@ class APIService {
       'playlistId': playlistId,
       'maxResults': maxResults,
       'pageToken': nextPageToken,
-      'key': Constants.API_KEY,
+      'key': apiKey,
     };
     Uri uri = Uri.https(
       _baseUrl,
